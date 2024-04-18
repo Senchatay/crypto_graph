@@ -15,5 +15,10 @@ module Exchange
         changeway.map(&:full_name).join(' -> ')
       end
     end
+
+    def all_targets(node)
+      same_nodes = Finder::NodeByName.with_other_exchange(nodes, node)
+      edges.select { |edge| same_nodes.include?(edge.source) && !same_nodes.include?(edge.target) }.map(&:target)
+    end
   end
 end

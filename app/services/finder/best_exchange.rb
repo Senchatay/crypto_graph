@@ -23,7 +23,9 @@ module Finder
     private
 
     def deep_search(current_node)
-      color[current_node] = :grey
+      Finder::NodeByName.with_other_exchange(nodes, current_node).each do |node|
+        color[node] = :grey
+      end
       all_targets(current_node).each do |node|
         latest_way.push(node)
 

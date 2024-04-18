@@ -50,12 +50,8 @@ class RateToGraph
     edges = different_currency
 
     nodes = edges.map(&:source) + edges.map(&:target)
-    nodes_by_name = Hash.new { |hash, key| hash[key] = [] }
-    nodes.each do |node|
-      nodes_by_name[node.name] << node
-    end
 
-    nodes_by_name.values.map do |same_currency_nodes|
+    Finder::NodeByName.all(nodes).values.map do |same_currency_nodes|
       same_currency_nodes.permutation(2).map do |source, target|
         Graph::Edge.new(source, target, SAME_CURRENCY_EDGE_DISTANCE)
       end
