@@ -6,7 +6,7 @@ module Finder
     attr_accessor :latest_way, :latest_rating, :color, :changeways
 
     def find_changeways!
-      @changeways = Hash.new { |hash, key| hash[key] = Hash.new { |h, k| h[k] = [] } }
+      @changeways = []
 
       currency_finder.names.each do |name|
         @color = Hash.new { |hash, key| hash[key] = :white }
@@ -27,10 +27,7 @@ module Finder
         if color[currency_name] == :white
           deep_search(currency_name)
         elsif color[currency_name] == :grey
-          changeways[currency_name] = {
-            way: latest_way.dup,
-            cost: latest_rating.dup
-          }
+          save_result!(edge)
         end
         grade_down!
       end
@@ -45,6 +42,16 @@ module Finder
     def grade_down!
       latest_rating.pop
       latest_way.pop
+    end
+
+    def save_result!(edge)
+      index = latest_way.index { |node| currency_finder.with_other_exchange(edge.target).include?(node) }
+      way = latest_way[index..]
+      cost = latest_rating[index..]
+      changeways << {
+        way:,
+        cost:
+      }
     end
   end
 end

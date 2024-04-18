@@ -20,7 +20,7 @@ module Exchange
 
     def ways_top
       find_changeways!
-      changeways.values.map do |changeway|
+      changeways.map do |changeway|
         way = changeway[:way].map(&:full_name).join(' -> ')
         cost = changeway[:cost].reduce(&:*)
         "#{way}; #{cost}"
