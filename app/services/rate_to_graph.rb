@@ -31,7 +31,7 @@ class RateToGraph
   end
 
   def edges_constructor
-    different_currency + same_currency
+    different_currency #+ same_currency
   end
 
   def different_currency
@@ -48,11 +48,11 @@ class RateToGraph
     end.flatten
   end
 
-  def same_currency
-    @board.currency_finder.nodes_by_name.values.map do |same_currency_nodes|
-      same_currency_nodes.permutation(2).map do |source, target|
-        Graph::Edge.new(source, target, SAME_CURRENCY_EDGE_DISTANCE)
-      end
-    end.flatten
-  end
+  # def same_currency
+  #   @board.currency_finder.nodes_by_name.values.map do |same_currency_nodes|
+  #     same_currency_nodes.permutation(2).map do |source, target|
+  #       Graph::Edge.new(source, target, SAME_CURRENCY_EDGE_DISTANCE)
+  #     end
+  #   end.flatten
+  # end
 end

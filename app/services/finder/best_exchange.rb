@@ -10,8 +10,8 @@ module Finder
 
       currency_finder.names.each do |name|
         @color = Hash.new { |hash, key| hash[key] = :white }
-        @latest_way = [all_targets(name).first[1].source]
-        @latest_rating = [1]
+        @latest_way = []
+        @latest_rating = []
 
         deep_search(name)
       end
@@ -35,8 +35,10 @@ module Finder
     end
 
     def grade_up!(edge)
-      latest_way.push(edge.target)
-      latest_rating.push(edge.distance)
+      latest_way.push([edge.source, edge.target])
+
+      elder_value = latest_rating.last&.last || 1
+      latest_rating.push([elder_value, elder_value * edge.distance])
     end
 
     def grade_down!
@@ -45,9 +47,9 @@ module Finder
     end
 
     def save_result!(edge)
-      index = latest_way.index { |node| currency_finder.with_other_exchange(edge.target).include?(node) }
-      way = latest_way[index..]
-      cost = latest_rating[index..]
+      index = latest_way.index { |nodes| currency_finder.with_other_exchange(edge.target).include?(nodes.first) }
+      way = latest_way.dup[index..]
+      cost = latest_rating.dup[index..]
       changeways << {
         way:,
         cost:

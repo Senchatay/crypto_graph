@@ -21,9 +21,10 @@ module Exchange
     def ways_top
       find_changeways!
       changeways.map do |changeway|
-        way = changeway[:way].map(&:full_name).join(' -> ')
-        cost = changeway[:cost].reduce(&:*)
-        "#{way}; #{cost}"
+        changeway[:way].map do |way|
+          cost = changeway[:cost].shift
+          "#{way.first.full_name} (#{cost.first}) ==> #{way.last.full_name} (#{cost.last})"
+        end.join('; ')
       end
     end
 
