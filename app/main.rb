@@ -5,5 +5,5 @@ require_all('app/services/**/*.rb')
 require_all(Dir.glob('app/models/**/*.rb').reject { |f| f == __FILE__ })
 
 graph = RateToGraph.call
-result = graph.dijkstra_for_node(graph.nodes.first)
-puts result
+result = graph.find
+puts result, graph.nodes

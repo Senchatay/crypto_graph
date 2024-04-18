@@ -4,7 +4,7 @@ module Graph
   # Mathematic Graph
   class Graph
     include ::Finder::BestExchange
-    include ::Finder::Dijkstra
+    # include ::Finder::Dijkstra
 
     attr_accessor :edges, :net, :nodes
 
@@ -21,6 +21,10 @@ module Graph
         nodes.add(edge.source)
         nodes.add(edge.target)
       end
+    end
+
+    def all_targets(node)
+      edges.select { |edge| edge.source == node }.map(&:target)
     end
   end
 end
