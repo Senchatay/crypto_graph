@@ -3,7 +3,6 @@
 module Graph
   # Mathematic Graph
   class Graph
-    include ::Finder::BestExchange
     # include ::Finder::Dijkstra
 
     attr_accessor :edges, :net, :nodes

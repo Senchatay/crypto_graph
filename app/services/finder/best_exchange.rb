@@ -5,7 +5,7 @@ module Finder
   module BestExchange
     attr_accessor :latest_way, :color, :changeways
 
-    def find
+    def find_changeways!
       @changeways = []
       @color = Hash.new { |hash, key| hash[key] = :white }
       remaining_nodes = nodes.to_a
@@ -30,7 +30,7 @@ module Finder
         if color[node] == :white
           deep_search(node)
         elsif color[node] == :grey
-          changeways << "Current way: #{latest_way}"
+          changeways << latest_way.dup
         end
 
         latest_way.pop
