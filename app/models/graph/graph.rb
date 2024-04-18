@@ -7,11 +7,11 @@ module Graph
 
     attr_accessor :edges, :net, :nodes
 
-    def initialize(edges)
+    def initialize(edges = [])
       @edges = edges
       @nodes = Set.new
       @net = Hash.new { |hash, key| hash[key] = {} }
-      build_net!
+      # build_net!
     end
 
     def build_net!

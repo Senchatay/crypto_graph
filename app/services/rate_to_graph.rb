@@ -25,8 +25,9 @@ class RateToGraph
   end
 
   def call
-    edges = edges_constructor
-    Exchange::Board.new(edges)
+    @board = Exchange::Board.new
+    @board.edges = edges_constructor
+    @board
   end
 
   def edges_constructor
@@ -34,24 +35,21 @@ class RateToGraph
   end
 
   def different_currency
-    @different_currency ||=
-      changers.map do |changer|
-        changer.exchange_table.map do |exchage_pair|
-          source = Graph::Node.new(exchage_pair.keys[0], changer)
-          target = Graph::Node.new(exchage_pair.keys[1], changer)
-          distance = exchage_pair.values[1] / exchage_pair.values.first
+    changers.map do |changer|
+      changer.exchange_table.map do |exchage_pair|
+        source = Graph::Node.new(exchage_pair.keys[0], changer)
+        target = Graph::Node.new(exchage_pair.keys[1], changer)
+        @board.nodes << source
+        @board.nodes << target
+        distance = exchage_pair.values[1] / exchage_pair.values.first
 
-          Graph::Edge.new(source, target, distance)
-        end
-      end.flatten
+        Graph::Edge.new(source, target, distance)
+      end
+    end.flatten
   end
 
   def same_currency
-    edges = different_currency
-
-    nodes = edges.map(&:source) + edges.map(&:target)
-
-    Finder::NodeByName.all(nodes).values.map do |same_currency_nodes|
+    @board.currency_finder.nodes_by_name.values.map do |same_currency_nodes|
       same_currency_nodes.permutation(2).map do |source, target|
         Graph::Edge.new(source, target, SAME_CURRENCY_EDGE_DISTANCE)
       end

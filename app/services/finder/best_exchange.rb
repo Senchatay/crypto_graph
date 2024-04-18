@@ -6,42 +6,40 @@ module Finder
     attr_accessor :latest_way, :latest_rating, :color, :changeways
 
     def find_changeways!
-      @changeways = []
-      @color = Hash.new { |hash, key| hash[key] = :white }
-      remaining_nodes = nodes.to_a
+      @changeways = Hash.new { |hash, key| hash[key] = Hash.new { |h, k| h[k] = [] } }
 
-      until remaining_nodes.empty?
-        current_node = remaining_nodes.shift
-        @latest_way = [current_node]
+      currency_finder.names.each do |name|
+        @color = Hash.new { |hash, key| hash[key] = :white }
+        @latest_way = [all_targets(name).first[1].source]
         @latest_rating = [1]
 
-        deep_search(current_node)
-        remaining_nodes -= color.keys
+        deep_search(name)
       end
       changeways
     end
 
     private
 
-    def deep_search(current_node)
-      Finder::NodeByName.with_other_exchange(nodes, current_node).each do |node|
-        color[node] = :grey
-      end
-      all_targets(current_node).each do |node, distance|
-        grade_up!(node, distance)
-        if color[node] == :white
-          deep_search(node)
-        elsif color[node] == :grey
-          changeways << { way: latest_way.dup, cost: latest_rating.dup }
+    def deep_search(name)
+      color[name] = :grey
+      all_targets(name).each do |currency_name, edge|
+        grade_up!(edge)
+        if color[currency_name] == :white
+          deep_search(currency_name)
+        elsif color[currency_name] == :grey
+          changeways[currency_name] = {
+            way: latest_way.dup,
+            cost: latest_rating.dup
+          }
         end
         grade_down!
       end
-      color[current_node] = :black
+      color[name] = :black
     end
 
-    def grade_up!(node, distance)
-      latest_way.push(node)
-      latest_rating.push(distance)
+    def grade_up!(edge)
+      latest_way.push(edge.target)
+      latest_rating.push(edge.distance)
     end
 
     def grade_down!
