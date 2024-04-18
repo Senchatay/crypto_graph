@@ -22,8 +22,8 @@ module Graph
       end
     end
 
-    def all_targets(node)
-      edges.select { |edge| edge.source == node }.map(&:target)
-    end
+    # def all_targets(node)
+    #   edges.select { |edge| edge.source == node }.map(&:target)
+    # end
   end
 end

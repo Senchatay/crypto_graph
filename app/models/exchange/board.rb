@@ -12,13 +12,20 @@ module Exchange
     def ways_top
       find_changeways!
       changeways.map do |changeway|
-        changeway.map(&:full_name).join(' -> ')
+        way = changeway[:way].map(&:full_name).join(' -> ')
+        cost = changeway[:cost].reduce(&:*)
+        "#{way}; #{cost}"
       end
     end
 
     def all_targets(node)
       same_nodes = Finder::NodeByName.with_other_exchange(nodes, node)
-      edges.select { |edge| same_nodes.include?(edge.source) && !same_nodes.include?(edge.target) }.map(&:target)
+      edges_to_targets = edges.select do |edge|
+        same_nodes.include?(edge.source) && !same_nodes.include?(edge.target)
+      end
+      edges_to_targets.map do |edge|
+        [edge.target, edge.distance]
+      end
     end
   end
 end
