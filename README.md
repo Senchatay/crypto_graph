@@ -11,9 +11,9 @@ ruby app/main.rb
 
 # Done
 - [x] Create full loop for finding profit cycle.
+- [x] Calculate cost with blockchain-system comission.
 
 # TODO
-- Calculate cost with blockchain-system comission.
 - Sort results by profit and show only top.
 - Grade up to sinatra, postgres and puma.
 - Parse realtime blockchain-system comission.
