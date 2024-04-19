@@ -1,41 +1,57 @@
 # frozen_string_literal: true
 
 module Finder
-  # Search cheapest way for selling currency pair
+  # Search cheapest way for selling currency pair. Using algorith dfs https://neerc.ifmo.ru/wiki/index.php?title=%D0%98%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_%D0%BE%D0%B1%D1%85%D0%BE%D0%B4%D0%B0_%D0%B2_%D0%B3%D0%BB%D1%83%D0%B1%D0%B8%D0%BD%D1%83_%D0%B4%D0%BB%D1%8F_%D0%BF%D0%BE%D0%B8%D1%81%D0%BA%D0%B0_%D1%86%D0%B8%D0%BA%D0%BB%D0%B0
   module BestExchange
-    def self.call(currency1, currency2); end
+    attr_accessor :latest_way, :latest_rating, :color, :changeways
 
-    def best_exchange(start_node, start_cost)
-      distances = {}
-      visited = Set.new
-      pq = PriorityQueue.new { |a, b| a[:distance] <=> b[:distance] }
+    def find_changeways!
+      @changeways = []
 
-      nodes.each do |node|
-        distances[node] = Float::INFINITY
+      currency_finder.names.each do |name|
+        @color = Hash.new { |hash, key| hash[key] = :white }
+        @latest_way = []
+        @latest_rating = []
+
+        deep_search(name)
       end
+      changeways
+    end
 
-      distances[start_node] = start_cost
-      pq.push(node: start_node, distance: start_cost)
+    private
 
-      until pq.empty?
-        current = pq.pop
-        current_node = current[:node]
-        visited.add(current_node)
-        return distances if visited == nodes
-
-        current_distance = current[:distance]
-
-        net[current_node].each do |neighbor, weight|
-          next if visited.include?(neighbor)
-
-          distance = current_distance * weight
-
-          if distance < distances[neighbor]
-            distances[neighbor] = distance
-            pq.push(node: neighbor, distance:)
-          end
+    def deep_search(name)
+      color[name] = :grey
+      all_targets(name).each do |currency_name, edge|
+        grade_up!(edge)
+        if color[currency_name] == :white
+          deep_search(currency_name)
+        elsif color[currency_name] == :grey
+          save_result!(edge)
         end
+        grade_down!
       end
+      color[name] = :black
+    end
+
+    def grade_up!(edge)
+      latest_way.push([edge.source, edge.target])
+      latest_rating.push(edge.distance)
+    end
+
+    def grade_down!
+      latest_rating.pop
+      latest_way.pop
+    end
+
+    def save_result!(edge)
+      index = latest_way.index { |nodes| currency_finder.with_other_exchange(edge.target).include?(nodes.first) }
+      way = latest_way.dup[index..]
+      cost = latest_rating.dup[index..]
+      changeways << {
+        way:,
+        cost:
+      }
     end
   end
 end

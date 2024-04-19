@@ -10,5 +10,9 @@ module Graph
       @target = target
       @distance = distance
     end
+
+    def nodes
+      [source, target]
+    end
   end
 end
