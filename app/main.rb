@@ -6,8 +6,4 @@ require_all('app/services/**/*.rb')
 require_all('app/models/graph/**/*.rb')
 require_all('app/models/exchange/**/*.rb')
 
-board = RateToGraph.call
-# result = graph.find
-# puts result, graph.nodes
-File.write('tmp/result2.txt', board.ways_top.join("\n"))
-puts board.all_currency
+Presenter::TxtResult.call(RateToGraph.call)

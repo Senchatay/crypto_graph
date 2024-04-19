@@ -36,9 +36,7 @@ module Finder
 
     def grade_up!(edge)
       latest_way.push([edge.source, edge.target])
-
-      elder_value = latest_rating.last&.last || 1
-      latest_rating.push([elder_value, elder_value * edge.distance])
+      latest_rating.push(edge.distance)
     end
 
     def grade_down!

@@ -17,8 +17,10 @@ module Finder
       nodes_by_name[current_node.name]
     end
 
-    def names
-      nodes_by_name.keys
+    def names(excepted_name = nil)
+      return nodes_by_name.keys unless excepted_name
+
+      nodes_by_name.keys - [excepted_name]
     end
 
     def nodes(name)

@@ -18,22 +18,16 @@ module Exchange
       nodes.map(&:full_name)
     end
 
-    def ways_top
-      find_changeways!
-      changeways.map do |changeway|
-        changeway[:way].map do |way|
-          cost = changeway[:cost].shift
-          "#{way.first.full_name} (#{cost.first}) ==> #{way.last.full_name} (#{cost.last})"
-        end.join('; ')
+    def ways(from, to)
+      edges.select do |edge|
+        edge.source.name == from && edge.target.name == to
       end
     end
 
     def all_targets(name)
       @all_targets[name] ||=
-        (currency_finder.names - [name]).map do |currency_name|
-          edges_to_targets = edges.select do |edge|
-            edge.source.name == name && edge.target.name == currency_name
-          end
+        currency_finder.names(name).map do |currency_name|
+          edges_to_targets = ways(name, currency_name)
           next if edges_to_targets.empty?
 
           shortest_edge = edges_to_targets.min { |a, b| a.distance <=> b.distance }
