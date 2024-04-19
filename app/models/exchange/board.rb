@@ -26,14 +26,14 @@ module Exchange
 
     def all_targets(name)
       @all_targets[name] ||=
-        currency_finder.names(name).map do |currency_name|
+        currency_finder.names(name).filter_map do |currency_name|
           edges_to_targets = ways(name, currency_name)
           next if edges_to_targets.empty?
 
           shortest_edge = edges_to_targets.min { |a, b| a.distance <=> b.distance }
 
           [currency_name, shortest_edge]
-        end.compact
+        end
     end
   end
 end

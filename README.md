@@ -12,9 +12,10 @@ ruby app/main.rb
 # Done
 - [x] Create full loop for finding profit cycle.
 - [x] Calculate cost with blockchain-system comission.
+- [x] Sort results by profit and show only top.
 
 # TODO
-- Sort results by profit and show only top.
+- Dockerize app.
 - Grade up to sinatra, postgres and puma.
 - Parse realtime blockchain-system comission.
 - Parse realtime exchange.

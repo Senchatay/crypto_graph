@@ -3,6 +3,8 @@
 module Presenter
   # Present resultst in tmp/result.txt
   class TxtResult
+    TOP_LIMIT = 5
+
     attr_accessor :board
 
     def self.call(board)
@@ -14,32 +16,31 @@ module Presenter
     end
 
     def call
-      File.write('tmp/result.txt', ways_top.join("\n\n"))
+      Dir.mkdir 'tmp' unless Dir.exist?('tmp')
+      File.open('tmp/result.txt', 'w+') do |f|
+        f.write(ways_top.join("\n\n"))
+      end
       puts board.all_currency
     end
 
     private
 
     def ways_top
-      board.find_changeways!
-      board.changeways.dup.map do |changeway|
-        perform_as_string(*changeway.values_at(:way, :cost))
+      board.top_exchange(TOP_LIMIT).map do |changeway|
+        perform_as_string(**changeway)
       end
     end
 
-    def perform_as_string(ways, costs)
+    def perform_as_string(way:, coefficients:, result:)
       strings = []
-      coefficient = 1
-      ways.each_with_index do |way, index|
-        prev_coefficient = coefficient
-        coefficient *= costs[index]
-        strings << way.first.full_name.to_s.ljust(25)
-        strings << "(#{prev_coefficient})".ljust(25)
+      way.each_with_index do |edge, index|
+        strings << edge.first.full_name.to_s.ljust(25)
+        strings << "(#{coefficients[index]})".ljust(25)
         strings << '==>'.center(25)
-        strings << way.last.full_name.to_s.ljust(25)
-        strings << "(#{coefficient});\n"
+        strings << edge.last.full_name.to_s.ljust(25)
+        strings << "(#{coefficients[index + 1]});\n"
       end
-      strings << "#{(coefficient - 1) * 100}%"
+      strings << "#{result}%"
       strings.join
     end
   end
