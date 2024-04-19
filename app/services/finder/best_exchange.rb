@@ -5,6 +5,15 @@ module Finder
   module BestExchange
     attr_accessor :latest_way, :latest_rating, :color, :changeways
 
+    def top_exchange(count)
+      find_changeways!
+      changeways.map     { |changeway| changeway_data(changeway) }
+                .sort_by { |changeway| -changeway[:result]       }
+                .first(count)
+    end
+
+    private
+
     def find_changeways!
       @changeways = []
 
@@ -17,8 +26,6 @@ module Finder
       end
       changeways
     end
-
-    private
 
     def deep_search(name)
       color[name] = :grey
@@ -48,11 +55,27 @@ module Finder
     def save_result!(edge)
       index = latest_way.index { |nodes| currency_finder.with_other_exchange(edge.target).include?(nodes.first) }
       way = latest_way.dup[index..]
-      cost = latest_rating.dup[index..]
+      costs = latest_rating.dup[index..]
       changeways << {
         way:,
-        cost:
+        costs:
       }
+    end
+
+    def changeway_data(changeway)
+      coefficients = coefficients(changeway[:costs])
+      result = (coefficients.last - 1) * 100
+      {
+        way: changeway[:way],
+        coefficients:,
+        result:
+      }
+    end
+
+    def coefficients(costs)
+      costs.each_with_object([1]) do |cost, memo|
+        memo << cost * memo.last
+      end
     end
   end
 end
