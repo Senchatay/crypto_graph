@@ -5,9 +5,9 @@ module Exchange
   class Commission
     attr_accessor :name, :commission
 
-    def initialize(name, commission = nil)
+    def initialize(name)
       @name = name
-      @commission = commission || Object.const_get("Parser::Commission::#{name}Parser").call
+      @commission = Parser::Commission.const_get(name).call
     end
   end
 end

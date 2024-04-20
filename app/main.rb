@@ -3,6 +3,7 @@
 require 'require_all'
 require 'byebug'
 require 'faraday'
+require 'dotenv/load'
 require_all('app/services/algorithm/**/*.rb')
 require_all('app/services/finder/*.rb')
 require_all('app/services/presenter/*.rb')

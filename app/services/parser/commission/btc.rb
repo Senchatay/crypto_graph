@@ -3,7 +3,7 @@
 module Parser
   module Commission
     # Pick BTC commission from web
-    module BTCParser
+    module BTC
       URL = 'https://mempool.space/api/v1/fees/recommended'
       def self.call
         response = Faraday.get(URL)
