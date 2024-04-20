@@ -14,6 +14,7 @@ cat tmp/result.txt
 ```
 make build          # Build the image
 make start          # Start Container and compute calculation
+make debug          # Run Container in debug mode
 ```
 
 # Done
@@ -21,10 +22,10 @@ make start          # Start Container and compute calculation
 - [x] Calculate cost with blockchain-system commission.
 - [x] Sort results by profit and show only top.
 - [x] Dockerize app.
+- [x] Parse realtime blockchain-system commission.
 
 # TODO
 - Grade up to sinatra, postgres and puma.
-- Parse realtime blockchain-system commission.
 - Parse realtime exchange.
 - Use dry-rb datatypes for prices.
 - Create smart-contract using solidity.

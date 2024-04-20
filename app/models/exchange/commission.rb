@@ -3,11 +3,11 @@
 module Exchange
   # Commission to deal with transfer
   class Commission
-    attr_accessor :name, :cost
+    attr_accessor :name, :commission
 
-    def initialize(name, cost)
+    def initialize(name)
       @name = name
-      @cost = cost
+      @commission = Parser::Commission.const_get(name).call
     end
   end
 end
