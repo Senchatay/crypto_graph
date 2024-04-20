@@ -43,8 +43,8 @@ module Finder
 
     def grade_up!(edge)
       latest_way.push([edge.source, edge.target])
-      comission = Loader::BlockchainComissionLoader.find_by(name: edge.source.name).cost
-      latest_rating.push(edge.distance * (1 - comission))
+      commission = Loader::BlockchainCommissionLoader.find_by(name: edge.source.name).cost
+      latest_rating.push(edge.distance * (1 - commission))
     end
 
     def grade_down!

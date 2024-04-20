@@ -2,16 +2,16 @@
 
 module Loader
   # Mock Data
-  module BlockchainComissionLoader
+  module BlockchainCommissionLoader
     DATA = [
-      Exchange::Comission.new(:'USDT TRC20', 0.01),
-      Exchange::Comission.new(:'RUB Сбербанк', 0.01),
-      Exchange::Comission.new(:BTC, 0.01),
-      Exchange::Comission.new(:ETH, 0.01)
+      Exchange::Commission.new(:'USDT TRC20', 0.01),
+      Exchange::Commission.new(:'RUB Сбербанк', 0.01),
+      Exchange::Commission.new(:BTC, 0.01),
+      Exchange::Commission.new(:ETH, 0.01)
     ].freeze
 
     def self.find_by(name:)
-      DATA.find { |comission| comission.name == name }
+      DATA.find { |commission| commission.name == name }
     end
   end
 end

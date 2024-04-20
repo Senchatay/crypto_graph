@@ -18,13 +18,13 @@ make start          # Start Container and compute calculation
 
 # Done
 - [x] Create full loop for finding profit cycle.
-- [x] Calculate cost with blockchain-system comission.
+- [x] Calculate cost with blockchain-system commission.
 - [x] Sort results by profit and show only top.
 - [x] Dockerize app.
 
 # TODO
 - Grade up to sinatra, postgres and puma.
-- Parse realtime blockchain-system comission.
+- Parse realtime blockchain-system commission.
 - Parse realtime exchange.
 - Use dry-rb datatypes for prices.
 - Create smart-contract using solidity.

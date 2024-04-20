@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Exchange
-  # Comission to deal with transfer
-  class Comission
+  # Commission to deal with transfer
+  class Commission
     attr_accessor :name, :cost
 
     def initialize(name, cost)

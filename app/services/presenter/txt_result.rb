@@ -18,30 +18,59 @@ module Presenter
     def call
       Dir.mkdir 'tmp' unless Dir.exist?('tmp')
       File.open('tmp/result.txt', 'w+') do |f|
-        f.write(ways_top.join("\n\n"))
+        header!(f)
+        ways_top!(f)
       end
       puts board.all_currency
     end
 
     private
 
-    def ways_top
+    def header!(file)
+      string = "|#{'Currency from'.center(25)}|#{'Count'.center(25)}|"
+      string += ''.center(25)
+      string += "|#{'Currency to'.center(25)}|#{'Count'.center(25)}|\n"
+      file.write(string)
+    end
+
+    def split_line!(file)
+      file.write('-' * 131)
+      file.write("\n")
+    end
+
+    def ways_top!(file)
       board.top_exchange(TOP_LIMIT).map do |changeway|
-        perform_as_string(**changeway)
+        split_line!(file)
+        print_changeway!(file, **changeway)
       end
     end
 
-    def perform_as_string(way:, coefficients:, result:)
-      strings = []
+    def print_changeway!(file, way:, coefficients:, result:)
+      print_each_edge!(file, way, coefficients)
+      split_line!(file)
+      file.write("#{result}%")
+      file.write("\n")
+      file.write("\n")
+    end
+
+    def print_each_edge!(file, way, coefficients)
       way.each_with_index do |edge, index|
-        strings << edge.first.full_name.to_s.ljust(25)
-        strings << "(#{coefficients[index]})".ljust(25)
-        strings << '==>'.center(25)
-        strings << edge.last.full_name.to_s.ljust(25)
-        strings << "(#{coefficients[index + 1]});\n"
+        file.write(
+          changeway_as_string(
+            edge.first.full_name.to_s,
+            coefficients[index].to_s,
+            edge.last.full_name.to_s,
+            coefficients[index + 1].to_s
+          )
+        )
       end
-      strings << "#{result}%"
-      strings.join
+    end
+
+    def changeway_as_string(currency_from, count_from, currency_to, count_to)
+      string = "|#{currency_from.ljust(25)}|#{count_from.ljust(25)}|"
+      string += '==>'.center(25)
+      string += "|#{currency_to.ljust(25)}|#{count_to.ljust(25)}|\n"
+      string
     end
   end
 end
