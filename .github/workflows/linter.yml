@@ -1,0 +1,17 @@
+name: Lint Code
+
+on:
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  run-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: RuboCop Linter Action
+        uses: andrewmcodes-archive/rubocop-linter-action@v3.3.0
+        with:
+          # Return exit code if linter returns some failures.
+          exit_on_failure: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
