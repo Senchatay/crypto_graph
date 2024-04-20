@@ -1,9 +1,13 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
 
-ruby "3.3.0"
+source 'https://rubygems.org'
 
-gem 'rubocop', '~> 1.63'
-gem 'require_all'
+ruby '3.3.0'
+
+group :development, :rubocop do
+  gem 'rubocop', require: false
+end
 gem 'byebug'
-gem 'faraday'
 gem 'dotenv'
+gem 'faraday'
+gem 'require_all'
