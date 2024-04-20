@@ -22,10 +22,10 @@ make debug          # Run Container in debug mode
 - [x] Calculate cost with blockchain-system commission.
 - [x] Sort results by profit and show only top.
 - [x] Dockerize app.
+- [x] Parse realtime blockchain-system commission.
 
 # TODO
 - Grade up to sinatra, postgres and puma.
-- Parse realtime blockchain-system commission.
 - Parse realtime exchange.
 - Use dry-rb datatypes for prices.
 - Create smart-contract using solidity.
