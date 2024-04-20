@@ -5,17 +5,24 @@ This project using [graph deep first search with colors](https://neerc.ifmo.ru/w
 ```
 git clone git@github.com:Senchatay/crypto_graph.git
 cd crypto_graph
-bundle
-ruby app/main.rb
+make build
+make start
+cat tmp/result.txt
+```
+
+## Commands
+```
+make build          # Build the image
+make start          # Start Container and compute calculation
 ```
 
 # Done
 - [x] Create full loop for finding profit cycle.
 - [x] Calculate cost with blockchain-system comission.
 - [x] Sort results by profit and show only top.
+- [x] Dockerize app.
 
 # TODO
-- Dockerize app.
 - Grade up to sinatra, postgres and puma.
 - Parse realtime blockchain-system comission.
 - Parse realtime exchange.
