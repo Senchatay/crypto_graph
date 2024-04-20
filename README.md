@@ -14,6 +14,7 @@ cat tmp/result.txt
 ```
 make build          # Build the image
 make start          # Start Container and compute calculation
+make debug          # Run Container in debug mode
 ```
 
 # Done

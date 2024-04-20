@@ -45,22 +45,22 @@ module Presenter
       end
     end
 
-    def print_changeway!(file, way:, coefficients:, result:)
-      print_each_edge!(file, way, coefficients)
+    def print_changeway!(file, way:, amounts:, result:)
+      print_each_edge!(file, way, amounts)
       split_line!(file)
       file.write("#{result}%")
       file.write("\n")
       file.write("\n")
     end
 
-    def print_each_edge!(file, way, coefficients)
+    def print_each_edge!(file, way, amounts)
       way.each_with_index do |edge, index|
         file.write(
           changeway_as_string(
             edge.first.full_name.to_s,
-            coefficients[index].to_s,
+            amounts[index].to_s,
             edge.last.full_name.to_s,
-            coefficients[index + 1].to_s
+            amounts[index + 1].to_s
           )
         )
       end
