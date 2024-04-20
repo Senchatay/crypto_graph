@@ -47,7 +47,7 @@ DEPENDENCIES
   dotenv
   faraday
   require_all
-  rubocop (~> 1.63)
+  rubocop
 
 RUBY VERSION
    ruby 3.3.0p0
