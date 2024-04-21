@@ -5,7 +5,7 @@ module Presenter
   class TxtResult
     TOP_LIMIT = 5
 
-    attr_accessor :board
+    attr_accessor :board, :top
 
     def self.call(board)
       new(board).call
@@ -13,6 +13,7 @@ module Presenter
 
     def initialize(board)
       @board = board
+      @top = board.top_exchange(TOP_LIMIT)
     end
 
     def call
@@ -39,7 +40,7 @@ module Presenter
     end
 
     def ways_top!(file)
-      board.top_exchange(TOP_LIMIT).map do |changeway|
+      top.map do |changeway|
         split_line!(file)
         print_changeway!(file, **changeway)
       end

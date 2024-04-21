@@ -1,5 +1,6 @@
 build:
 	docker-compose build
+	docker-compose run --rm app bundle
 start:
 	docker-compose up
 debug:

@@ -7,7 +7,8 @@ class RateToGraph
   attr_accessor :changers
 
   def self.call
-    new(Loader::ChangerLoader::DATA).call
+    Loader::MonitoringLoader.call
+    new(Loader::ChangerLoader.data).call
   end
 
   def initialize(changers)
