@@ -4,7 +4,7 @@ module Parser
   module Monitoring
     # Pick BTC commission from web
     class BestChange
-      TOP_CHANGERS_COUNT = 1
+      TOP_CHANGERS_COUNT = 3
       CURRENCYS = %w[bitcoin ethereum tether-erc20 tether-trc20 tron bitcoin-cash ethereum-classic litecoin].freeze
 
       def self.load
@@ -37,6 +37,7 @@ module Parser
         exchange_names.each_with_index do |exchange, index|
           amount_from, currency_from = extract_from(pay_from[index].content)
           amount_to, currency_to = extract_from(pay_to[index].content)
+          next if currency_from == currency_to
 
           Loader::ChangerLoader.push!(
             exchange.content,

@@ -12,16 +12,16 @@ module Finder
       ETH: 0.5,
       LTC: 18,
       ETC: 53,
+      SOL: 10,
       'USDT ERC20': 1500,
       'USDT TRC20': 1500,
-      'RUB Сбербанк': 50_000,
-      'RUB Тинькофф': 50_000
+      'RUB': 50_000
     }.freeze
 
     def self.start_amount(currency)
       return @start_amount[currency] if @start_amount
 
-      @start_amount = Hash.new { 1 }
+      @start_amount = Hash.new { 10 }
       @start_amount.merge!(START_AMOUNTS)
       @start_amount[currency]
     end
@@ -30,7 +30,7 @@ module Finder
 
     def top_exchange(count)
       find_changeways!
-      changeways.map     { |changeway| changeway_data(changeway) }
+      changeways.map     { |changeway| changeway_data(changeway) }.uniq
                 .sort_by { |changeway| -changeway[:result]       }
                 .first(count)
     end

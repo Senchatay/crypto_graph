@@ -10,7 +10,7 @@ module Parser
 
         def extract_from(string)
           [
-            string.slice!(/[\d. ]*(?= )/).gsub(' ', '_').to_f,
+            string.slice!(/[\d. ]*(?= )/).gsub(/.*RUB.*/, 'RUB').gsub(' ', '_').to_f,
             (string[/(?<= ).*(?=от)/] || string[/(?<= ).*/]).to_sym # .gsub(' ', '::')
           ]
         end
