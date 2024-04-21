@@ -6,7 +6,7 @@ module Parser
       # Pick BestChange.com exchanges
       class Com < ::Parser::Monitoring::BestChange
         URL = 'https://www.bestchange.com'
-        CURRENCYS = %w[bitcoin ethereum tether-erc20 tether-trc20].freeze
+        CURRENCYS = %w[bitcoin ethereum tether-erc20 tether-trc20 tron bitcoin-cash].freeze
 
         def extract_from(string)
           [

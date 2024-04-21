@@ -12,12 +12,14 @@ module Parser
       end
 
       def self.call
+        connection = Faraday.new(url: self::URL)
         self::CURRENCYS.permutation(2).to_a.map do |currency_pair|
           sheet = "#{currency_pair[0]}-to-#{currency_pair[1]}.html"
-          response = Faraday.get(URI.join(self::URL, sheet))
+          response = connection.get(sheet)
           document = Nokogiri::HTML.parse(response.body)
           new(document).parse_from_page
         end
+        connection.close
       end
 
       attr_accessor :exchange_names, :pay_from, :pay_to

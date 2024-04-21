@@ -6,7 +6,9 @@ module Finder
     include Algorithm::DfsWithColors
 
     START_AMOUNTS = {
-      BTC: 0.01,
+      BTC: 0.03,
+      BCH: 3,
+      TRX: 10_000,
       ETH: 0.5,
       'USDT ERC20': 1500,
       'USDT TRC20': 1500,
