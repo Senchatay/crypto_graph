@@ -7,10 +7,11 @@ module Finder
 
     START_AMOUNTS = {
       BTC: 0.01,
-      ETH: 0.2,
-      'USDT ERC20': 500,
-      'USDT TRC20': 500,
-      'RUB Сбербанк': 30_000
+      ETH: 0.5,
+      'USDT ERC20': 1500,
+      'USDT TRC20': 1500,
+      'RUB Сбербанк': 50_000,
+      'RUB Тинькофф': 50_000
     }.freeze
 
     def self.start_amount(currency)

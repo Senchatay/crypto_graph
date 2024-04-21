@@ -7,7 +7,7 @@ class RateToGraph
   attr_accessor :changers
 
   def self.call
-    Parser::Monitoring::BestChange.call
+    Loader::MonitoringLoader.call
     new(Loader::ChangerLoader.data).call
   end
 
