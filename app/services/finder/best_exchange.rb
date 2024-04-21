@@ -10,6 +10,8 @@ module Finder
       BCH: 3,
       TRX: 10_000,
       ETH: 0.5,
+      LTC: 18,
+      ETC: 53,
       'USDT ERC20': 1500,
       'USDT TRC20': 1500,
       'RUB Сбербанк': 50_000,

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # require 'active_support/concern'
+# require 'async/http/faraday'
 require 'require_all'
 require 'byebug'
 require 'faraday'

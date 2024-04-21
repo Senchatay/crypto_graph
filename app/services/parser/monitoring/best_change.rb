@@ -4,7 +4,8 @@ module Parser
   module Monitoring
     # Pick BTC commission from web
     class BestChange
-      TOP_CHANGERS_COUNT = 5
+      TOP_CHANGERS_COUNT = 1
+      CURRENCYS = %w[bitcoin ethereum tether-erc20 tether-trc20 tron bitcoin-cash ethereum-classic litecoin].freeze
 
       def self.load
         Parser::Monitoring::BestChange::Ru.call
@@ -19,7 +20,10 @@ module Parser
           document = Nokogiri::HTML.parse(response.body)
           new(document).parse_from_page
         end
-        connection.close
+      rescue Faraday::Error => e
+        puts e.message
+      ensure
+        connection&.close
       end
 
       attr_accessor :exchange_names, :pay_from, :pay_to

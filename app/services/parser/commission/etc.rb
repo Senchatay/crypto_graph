@@ -2,9 +2,9 @@
 
 module Parser
   module Commission
-    # Pick BCH commission from web
-    module BCH
-      URL = 'https://bitinfocharts.com/ru/bitcoin%20cash/'
+    # Pick ETC commission from web
+    module ETC
+      URL = 'https://bitinfocharts.com/ru/ethereum%20classic/'
       def self.call
         @call ||= begin
           response = Faraday.get(URL)
