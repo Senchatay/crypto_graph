@@ -25,6 +25,8 @@ make debug          # Run Container in debug mode
 - [x] Parse realtime blockchain-system commission.
 
 # TODO
+- Optimaze best_exchange with storing calculated node
+- Write dotenv example to README
 - Grade up to sinatra, postgres and puma.
 - Parse realtime exchange.
 - Use dry-rb datatypes for prices.
