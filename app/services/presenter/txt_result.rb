@@ -76,8 +76,9 @@ module Presenter
     end
 
     def currencys!(file)
-      file.write('ALL CURRENCYS'.center(131))
-      file.write("\n")
+      file.write('|')
+      file.write('ALL CURRENCYS'.center(129))
+      file.write("|\n")
       split_line!(file)
       board.all_currency.each do |currency|
         file.write("#{currency}\n")

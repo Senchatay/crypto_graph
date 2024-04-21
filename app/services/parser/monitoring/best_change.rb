@@ -9,7 +9,7 @@ module Parser
 
       def self.load
         Parser::Monitoring::BestChange::Ru.call
-        Parser::Monitoring::BestChange::Com.call
+        # Parser::Monitoring::BestChange::Com.call
       end
 
       def self.call
@@ -21,7 +21,7 @@ module Parser
           new(document).parse_from_page
         end
       rescue Faraday::Error => e
-        puts e.message
+        puts e
       ensure
         connection&.close
       end

@@ -17,6 +17,12 @@ make start          # Start Container and compute calculation
 make debug          # Run Container in debug mode
 ```
 
+# Add Exchanges:
+- https://cryptoradar.com/
+
+# Good info
+- https://medium.com/@rahul_m/tor-with-ruby-to-make-anonymous-request-b52f266f8f6b
+
 # Done
 - [x] Create full loop for finding profit cycle.
 - [x] Calculate cost with blockchain-system commission.

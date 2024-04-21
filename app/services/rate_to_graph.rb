@@ -18,6 +18,7 @@ class RateToGraph
   def call
     @board = Exchange::Board.new
     @board.edges = edges_constructor
+    @board.nodes = Loader::NodeLoader.data
     @board
   end
 
@@ -28,10 +29,8 @@ class RateToGraph
   def different_currency
     changers.map do |changer|
       changer.exchange_table.map do |exchage_pair|
-        source = Graph::Node.new(exchage_pair.keys[0], changer)
-        target = Graph::Node.new(exchage_pair.keys[1], changer)
-        @board.nodes << source
-        @board.nodes << target
+        source = Loader::NodeLoader.push!(exchage_pair.keys[0], changer)
+        target = Loader::NodeLoader.push!(exchage_pair.keys[1], changer)
         distance = exchage_pair.values[1] / exchage_pair.values.first
 
         Graph::Edge.new(source, target, distance)
