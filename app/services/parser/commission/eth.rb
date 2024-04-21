@@ -6,8 +6,10 @@ module Parser
     module ETH
       URL = "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=#{ENV['ETHERSCAN_API_KEY']}".freeze
       def self.call
-        response = Faraday.get(URL)
-        JSON.parse(response.body)['FastGasPrice'].to_f * 21_000 / 1_000_000_000
+        @call ||= begin
+          response = Faraday.get(URL)
+          JSON.parse(response.body)['FastGasPrice'].to_f * 21_000 / 1_000_000_000
+        end
       end
     end
   end

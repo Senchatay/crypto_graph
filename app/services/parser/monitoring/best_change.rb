@@ -6,11 +6,12 @@ module Parser
     module BestChange
       URL = 'https://www.bestchange.ru'
       TOP_CHANGERS_COUNT = 5
+      CURRENCYS = %w[bitcoin ethereum tether-erc20 tether-trc20 sberbank tinkoff].freeze
 
       module_function
 
       def call
-        %w[bitcoin ethereum tether-erc20 tether-trc20 sberbank].permutation(2).to_a.map do |currency_pair|
+        CURRENCYS.permutation(2).to_a.map do |currency_pair|
           sheet = "#{currency_pair[0]}-to-#{currency_pair[1]}.html"
           response = Faraday.get(URI.join(URL, sheet))
           document = Nokogiri::HTML.parse(response.body)
@@ -35,7 +36,7 @@ module Parser
       def extract_from(string)
         [
           string.slice!(/[\d. ]*(?= )/).gsub(' ', '_').to_f,
-          string[/(?<= )[\w ]*/].to_sym # .gsub(' ', '::')
+          (string[/(?<= ).*(?=от)/] || string[/(?<= ).*/]).to_sym # .gsub(' ', '::')
         ]
       end
     end
