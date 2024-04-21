@@ -5,7 +5,7 @@ module Finder
   module BestExchange
     include Algorithm::DfsWithColors
 
-    START_AMOUNT = 20
+    START_AMOUNT = 1
 
     attr_accessor :latest_way, :latest_rating, :color, :changeways
 

@@ -28,4 +28,4 @@ make debug          # Run Container in debug mode
 - Grade up to sinatra, postgres and puma.
 - Parse realtime exchange.
 - Use dry-rb datatypes for prices.
-- Create smart-contract using solidity.
+- Create auto-transfer using [BlockCypher](https://github.com/blockcypher/ruby-client)
