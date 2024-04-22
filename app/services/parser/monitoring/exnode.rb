@@ -6,7 +6,7 @@ module Parser
     module Exnode
       TOP_CHANGERS_COUNT = 3
       URL = 'https://exnode.ru/-courses-/api/v2/rates'
-      CURRENCYS = %w[ETH BTC USDTTRC USDTERC TRX SBERRUB SBPRUB TCSBRUB LTC BCH ETC SOL].freeze
+      CURRENCYS = %w[ETH BTC USDTTRC USDTERC TRX SBERRUB SBPRUB TCSBRUB LTC BCH ETC SOL BNB TON].freeze
 
       module_function
 

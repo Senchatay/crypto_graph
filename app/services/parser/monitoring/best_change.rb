@@ -5,7 +5,10 @@ module Parser
     # Pick BTC commission from web
     class BestChange
       TOP_CHANGERS_COUNT = 3
-      CURRENCYS = %w[bitcoin ethereum tether-erc20 tether-trc20 tron bitcoin-cash ethereum-classic litecoin].freeze
+      CURRENCYS = %w[
+        bitcoin ethereum tether-erc20 tether-trc20 tron bitcoin-cash ethereum-classic litecoin
+        binance-coin-bep2 ton
+      ].freeze
 
       def self.load
         Parser::Monitoring::BestChange::Ru.call
