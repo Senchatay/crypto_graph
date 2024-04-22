@@ -17,12 +17,12 @@ module Loader
 
     module_function
 
-    def push!(name, hash)
+    def push!(name, hash, params = {})
       changer = find_by(name:)
       if changer
         changer.exchange_table << hash
       else
-        data << Exchange::Changer.new(name, [hash])
+        data << Exchange::Changer.new(name, [hash], params)
       end
       true
     end

@@ -9,6 +9,7 @@ require 'dotenv/load'
 require 'nokogiri'
 require 'uri'
 require_all('app/services/algorithm/**/*.rb')
+require_all('app/services/api/*.rb')
 require_all('app/services/finder/*.rb')
 require_all('app/services/presenter/*.rb')
 require_all('app/models/graph/**/*.rb')

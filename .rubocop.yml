@@ -1,0 +1,8 @@
+Metrics/ClassLength:
+  Max: 300
+
+Metrics/MethodLength:
+  Max: 30
+
+Style/FloatDivision:
+  Enabled: false

@@ -9,18 +9,18 @@ module Graph
 
     def initialize(edges = [])
       @edges = edges
-      @nodes = Set.new
-      @net = Hash.new { |hash, key| hash[key] = {} }
+      @nodes = Loader::NodeLoader.data
+      # @net = Hash.new { |hash, key| hash[key] = {} }
       # build_net!
     end
 
-    def build_net!
-      edges.each do |edge|
-        net[edge.source][edge.target] = edge.distance
-        nodes.add(edge.source)
-        nodes.add(edge.target)
-      end
-    end
+    # def build_net!
+    #   edges.each do |edge|
+    #     net[edge.source][edge.target] = edge.distance
+    #     nodes.add(edge.source)
+    #     nodes.add(edge.target)
+    #   end
+    # end
 
     # def all_targets(node)
     #   edges.select { |edge| edge.source == node }.map(&:target)

@@ -4,49 +4,31 @@ module Parser
   module Monitoring
     # Pick BTC commission from web
     class BestChange
-      TOP_CHANGERS_COUNT = 1
-      CURRENCYS = %w[bitcoin ethereum tether-erc20 tether-trc20 tron bitcoin-cash ethereum-classic litecoin].freeze
+      CURRENCYS = ['ETH', 'BTC', 'USDT TRC20', 'USDT ERC20', 'TRX', 'LTC', 'BCH', 'ETC', 'SOL', 'BNB', 'TON'].freeze
 
       def self.load
-        Parser::Monitoring::BestChange::Ru.call
-        Parser::Monitoring::BestChange::Com.call
-      end
-
-      def self.call
-        connection = Faraday.new(url: self::URL)
-        self::CURRENCYS.permutation(2).to_a.map do |currency_pair|
-          sheet = "#{currency_pair[0]}-to-#{currency_pair[1]}.html"
-          response = connection.get(sheet)
-          document = Nokogiri::HTML.parse(response.body)
-          new(document).parse_from_page
+        # API::BestChange.currencies.values
+        CURRENCYS.permutation(2).to_a.map do |from, to|
+          new(API::BestChange.rates(from, to)).push_to_graph
         end
-      rescue Faraday::Error => e
-        puts e.message
-      ensure
-        connection&.close
       end
 
-      attr_accessor :exchange_names, :pay_from, :pay_to
+      attr_accessor :list
 
-      def initialize(page)
-        @exchange_names = page.css('.pc').first(self.class::TOP_CHANGERS_COUNT)
-        @pay_from, @pay_to = page.css('.bi').first(2 * self.class::TOP_CHANGERS_COUNT).to_a.split_by_parity
+      def initialize(list)
+        @list = list
       end
 
-      def parse_from_page
-        exchange_names.each_with_index do |exchange, index|
-          amount_from, currency_from = extract_from(pay_from[index].content)
-          amount_to, currency_to = extract_from(pay_to[index].content)
-
+      def push_to_graph
+        list.each do |hash|
           Loader::ChangerLoader.push!(
-            exchange.content,
-            { currency_from => amount_from, currency_to => amount_to }
+            hash[:exchanger],
+            {
+              hash[:currency_from].gsub(/.*RUB.*/, 'RUB').to_sym => hash[:amount_from],
+              hash[:currency_to].to_sym => hash[:amount_to]
+            }
           )
         end
-      end
-
-      def extract_from(string)
-        raise NotImplementedError
       end
     end
   end

@@ -21,8 +21,9 @@ module Presenter
       File.open('tmp/result.txt', 'w+') do |f|
         header!(f)
         ways_top!(f)
+        currencys!(f)
       end
-      puts board.all_currency
+      true
     end
 
     private
@@ -72,6 +73,16 @@ module Presenter
       string += '==>'.center(25)
       string += "|#{currency_to.ljust(25)}|#{count_to.ljust(25)}|\n"
       string
+    end
+
+    def currencys!(file)
+      file.write('|')
+      file.write('ALL CURRENCYS'.center(129))
+      file.write("|\n")
+      split_line!(file)
+      board.all_currency.each do |currency|
+        file.write("#{currency}\n")
+      end
     end
   end
 end

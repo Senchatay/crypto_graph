@@ -17,15 +17,24 @@ make start          # Start Container and compute calculation
 make debug          # Run Container in debug mode
 ```
 
-# Done
+# Documentation
+## Add Exchanges
+- https://cryptoradar.com/
+- https://www.binance.com/ with [binance-connector-ruby gem](https://github.com/binance/binance-connector-ruby)
+
+## Helpful info
+- https://medium.com/@rahul_m/tor-with-ruby-to-make-anonymous-request-b52f266f8f6b
+
+## Done
 - [x] Create full loop for finding profit cycle.
 - [x] Calculate cost with blockchain-system commission.
 - [x] Sort results by profit and show only top.
 - [x] Dockerize app.
 - [x] Parse realtime blockchain-system commission.
 
-# TODO
+## TODO
 - Optimaze best_exchange with storing calculated node
+- Optimaze best_exchange API for rates(600k many times select)
 - Write dotenv example to README
 - Grade up to sinatra, postgres and puma.
 - Parse realtime exchange.
