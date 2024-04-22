@@ -24,8 +24,8 @@ module Parser
           Loader::ChangerLoader.push!(
             hash[:exchanger],
             {
-              hash[:currency_from].gsub(/.*RUB.*/, 'RUB') => hash[:amount_from],
-              hash[:currency_to] => hash[:amount_to]
+              hash[:currency_from].gsub(/.*RUB.*/, 'RUB').to_sym => hash[:amount_from],
+              hash[:currency_to].to_sym => hash[:amount_to]
             }
           )
         end
