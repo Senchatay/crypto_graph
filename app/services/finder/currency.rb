@@ -5,10 +5,12 @@ module Finder
   class Currency
     attr_reader :nodes_by_name
 
+    EXCEPTED_CURRENCY = [:NGN].freeze
+
     def initialize(nodes)
       @nodes_by_name = Hash.new { |hash, key| hash[key] = [] }
       nodes.each do |node|
-        @nodes_by_name[node.name] << node
+        @nodes_by_name[node.name] << node unless EXCEPTED_CURRENCY.include?(node.name)
       end
       nodes_by_name
     end
