@@ -7,14 +7,29 @@ module Parser
       URL = 'https://api.exmo.com/v1.1/ticker'
       def self.load
         list = JSON.parse(Faraday.get(URL).body).map do |pair, info|
-          currency_to, currency_from = pair.split('_')
-          [
-            { exchanger: 'exmo.me', currency_from:, currency_to:, amount_from: info['sell_price'].to_f, amount_to: 1 },
-            { exchanger: 'exmo.me', currency_from: currency_to, currency_to: currency_from,
-              amount_from: 1, amount_to: info['buy_price'].to_f }
-          ]
+          currency_to, currency_from = pair.split('_').split_by_parity
+          currency_from = ['USDT ERC20', 'USDT TRC20'] if currency_from == 'USDT'
+          currency_to = ['USDT ERC20', 'USDT TRC20'] if currency_to == 'USDT'
+          currency_from.map do |from|
+            currency_to.map do |to|
+              [
+                node(from, to, amount_from: info['sell_price'].to_f),
+                node(to, from, amount_to: info['buy_price'].to_f)
+              ]
+            end
+          end
         end.flatten
         new(list).push_to_graph
+      end
+
+      def self.node(currency_from, currency_to, amount_from: 1, amount_to: 1)
+        {
+          exchanger: 'exmo.me',
+          currency_from:,
+          currency_to:,
+          amount_from:,
+          amount_to:
+        }
       end
 
       attr_accessor :list
