@@ -3,6 +3,8 @@
 module Algorithm
   # Using algorith dfs with colorize. Chech README.md
   module DfsWithColors
+    MAX_CHANGE_LENGTH = 6
+
     private
 
     def find_changeways!
@@ -45,6 +47,8 @@ module Algorithm
     def save_result!(edge)
       index = latest_way.index { |nodes| currency_finder.with_other_exchange(edge.target).include?(nodes.first) }
       way = latest_way.dup[index..]
+      return if way.length > MAX_CHANGE_LENGTH
+
       costs = latest_rating.dup[index..]
       changeways << {
         way:,

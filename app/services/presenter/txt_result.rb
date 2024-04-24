@@ -3,7 +3,7 @@
 module Presenter
   # Present resultst in tmp/result.txt
   class TxtResult
-    TOP_LIMIT = 5
+    TOP_LIMIT = 10
 
     attr_accessor :board, :top
 
@@ -29,8 +29,9 @@ module Presenter
     private
 
     def header!(file)
-      string = "|#{'Currency from'.center(25)}|#{'Count'.center(25)}|"
-      string += ''.center(25)
+      string = "|#{"Time: #{Time.now}".center(131)}|\n"
+      string += "|#{'Currency from'.center(25)}|#{'Count'.center(25)}|"
+      string += '==>'.center(25)
       string += "|#{'Currency to'.center(25)}|#{'Count'.center(25)}|\n"
       file.write(string)
     end
@@ -70,7 +71,7 @@ module Presenter
 
     def changeway_as_string(currency_from, count_from, currency_to, count_to)
       string = "|#{currency_from.ljust(25)}|#{count_from.ljust(25)}|"
-      string += '==>'.center(25)
+      string += "(#{count_from.to_f / count_to.to_f})".center(25)
       string += "|#{currency_to.ljust(25)}|#{count_to.ljust(25)}|\n"
       string
     end

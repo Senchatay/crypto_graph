@@ -21,4 +21,6 @@ require_all('app/services/parser/monitoring/**/*.rb')
 require_all('app/services/loader/*.rb')
 require_all('app/services/*.rb')
 
-Presenter::TxtResult.call(RateToGraph.call)
+loop do
+  Presenter::TxtResult.call(RateToGraph.call)
+end

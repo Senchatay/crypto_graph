@@ -4,11 +4,10 @@ module Parser
   # Pick commission from parsers
   module Commission
     def self.const_get(name)
-      # return Parser::Commission::ETH if name[/ERC/]
-      # return Parser::Commission::Tron if name[/TRC/] || name[/TRX/]
+      return Parser::Commission::ETH if name[/ERC/]
+      return Parser::Commission::Tron if name[/TRC/] || name[/TRX/]
 
-      # super(name.to_s.split(' ').join)
-      Parser::Commission
+      super(name.to_s.split(' ').join)
     end
 
     def self.const_missing(_name)
