@@ -5,10 +5,9 @@ module Parser
     # Pick exnode.ru exchanges
     class SimpleSwap
       URL = 'https://api.simpleswap.io'
-      EXCHANGE_LIMIT = 40
 
       def self.load
-        list = market_info.first(EXCHANGE_LIMIT).map do |info|
+        list = market_info.first(::Loader::MonitoringLoader::EXCHANGE_LIMIT).map do |info|
           {
             exchanger: 'simpleswap',
             currency_from: info['currency_from'].upcase,  # check case

@@ -3,6 +3,8 @@
 module Loader
   # Mock Data
   module MonitoringLoader
+    EXCHANGE_LIMIT = 200
+
     module_function
 
     def call

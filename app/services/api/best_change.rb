@@ -10,7 +10,7 @@ module API
     include Singleton
 
     INFO_FILE = 'http://api.bestchange.ru/info.zip'
-    EXCHANGE_LIMIT = 3
+    TOP_EXCHANGER_LIMIT = 3
 
     def self.method_missing(method_name, *args, &blk)
       if instance.respond_to?(method_name)
@@ -33,7 +33,7 @@ module API
       rates = ways(from_id, to_id).map do |entry|
         parse_info_from_row(from, to, *entry[2..4])
       end
-      rates.lazy.sort_by { |e| e[:distance] }.first(EXCHANGE_LIMIT)
+      rates.lazy.sort_by { |e| e[:distance] }.first(TOP_EXCHANGER_LIMIT)
     end
 
     def currencies

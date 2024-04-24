@@ -5,11 +5,10 @@ module Parser
     # Pick exnode.ru exchanges
     class Binance
       URL = 'https://www.binance.com/api/v3'
-      EXCHANGE_LIMIT = 40
 
       def self.load
         symbols = exchange_info
-        list = book_ticker.first(EXCHANGE_LIMIT).map do |info|
+        list = book_ticker.first(::Loader::MonitoringLoader::EXCHANGE_LIMIT).map do |info|
           amount_from, amount_to = info.values_at('askPrice', 'bidPrice').map(&:to_f)
           next if [amount_from, amount_to].any?(&:zero?)
 

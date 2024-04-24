@@ -5,10 +5,9 @@ module Parser
     # Pick BTC commission from web
     class KuCoin
       URL = 'https://api.kucoin.com/api/v1/market/allTickers'
-      EXCHANGE_LIMIT = 40
 
       def self.load
-        list = exchange_info.first(EXCHANGE_LIMIT).map do |info|
+        list = exchange_info.first(::Loader::MonitoringLoader::EXCHANGE_LIMIT).map do |info|
           currency_from, currency_to = info['symbol'].split('-')
           [
             node(currency_from, currency_to, amount_to: info['buy'].to_f),
