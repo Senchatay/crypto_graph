@@ -28,7 +28,10 @@ module Parser
       end
 
       def self.exchange_info
-        JSON.parse(Faraday.get(URL).body)['data']['ticker']
+        response = Faraday.get(URL)
+        return [] unless response.success?
+
+        JSON.parse(response.body)['data']['ticker']
       end
 
       attr_accessor :list

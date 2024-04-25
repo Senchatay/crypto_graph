@@ -15,6 +15,8 @@ module Parser
         begin
           CURRENCYS.permutation(2).to_a.map do |currency_pair|
             response = connection.get('', { from: currency_pair[0], to: currency_pair[1] })
+            next unless response.success?
+
             document = JSON.parse(response.body)
             parse_from_page(document)
           end

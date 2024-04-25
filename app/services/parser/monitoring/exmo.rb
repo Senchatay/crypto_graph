@@ -6,7 +6,7 @@ module Parser
     class Exmo
       URL = 'https://api.exmo.com/v1.1/ticker'
       def self.load
-        list = JSON.parse(Faraday.get(URL).body).map do |pair, info|
+        list = exchange_info.map do |pair, info|
           currency_to, currency_from = pair.split('_').split_by_parity
           currency_from = ['USDT ERC20', 'USDT TRC20'] if currency_from == 'USDT'
           currency_to = ['USDT ERC20', 'USDT TRC20'] if currency_to == 'USDT'
@@ -20,6 +20,13 @@ module Parser
           end
         end.flatten
         new(list).push_to_graph
+      end
+
+      def self.exchange_info
+        response = Faraday.get(URL)
+        return [] unless response.success?
+
+        JSON.parse(response.body)
       end
 
       def self.node(currency_from, currency_to, amount_from: 1, amount_to: 1)

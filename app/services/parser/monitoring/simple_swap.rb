@@ -7,7 +7,7 @@ module Parser
       URL = 'https://api.simpleswap.io'
 
       def self.load
-        list = market_info.first(::Loader::MonitoringLoader::EXCHANGE_LIMIT).map do |info|
+        list = exchange_info.first(::Loader::MonitoringLoader::EXCHANGE_LIMIT).map do |info|
           {
             exchanger: 'simpleswap',
             currency_from: info['currency_from'].upcase,  # check case
@@ -19,8 +19,10 @@ module Parser
         new(list).push_to_graph
       end
 
-      def self.market_info
+      def self.exchange_info
         response = Faraday.get("#{URL}/get_market_info")
+        return [] unless response.success?
+
         JSON.parse(response.body)
       end
 

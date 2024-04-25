@@ -7,7 +7,7 @@ module Exchange
 
     def initialize(name)
       @name = name
-      @commission = Parser::Commission.const_get(name).call
+      @commission = Parser::Commission.call
     end
   end
 end
