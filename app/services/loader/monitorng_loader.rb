@@ -8,9 +8,9 @@ module Loader
     module_function
 
     def call
-      Parser::Monitoring.constants.each do |resource|
-        Parser::Monitoring.const_get(resource).load
-      end
+      Parser::Monitoring.constants.map do |resource|
+        Thread.new { Parser::Monitoring.const_get(resource).load }
+      end.each(&:join)
     end
   end
 end
