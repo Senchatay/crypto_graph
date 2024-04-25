@@ -10,17 +10,19 @@ module Parser
         symbols = exchange_info
         list = book_ticker.map do |info|
           amount_from, amount_to = info.values_at('ask1Price', 'bid1Price').map(&:to_f)
+          pair = symbols[info['symbol']]
           next if [amount_from, amount_to].any?(&:zero?)
+          next if pair.nil?
 
           [
             node(
-              symbols[info['symbol']][:currency_from],
-              symbols[info['symbol']][:currency_to],
+              pair[:currency_from],
+              pair[:currency_to],
               amount_to:
             ),
             node(
-              symbols[info['symbol']][:currency_to],
-              symbols[info['symbol']][:currency_from],
+              pair[:currency_to],
+              pair[:currency_from],
               amount_from:
             )
           ]
@@ -30,7 +32,7 @@ module Parser
 
       def self.exchange_info
         response = Faraday.get("#{URL}/market/instruments-info?category=spot")
-        return [] unless response.success?
+        return {} unless response.success?
 
         JSON.parse(response.body)['result']['list'].each_with_object({}) do |pair, hash|
           hash[pair['symbol']] = { currency_from: pair['baseCoin'], currency_to: pair['quoteCoin'] }

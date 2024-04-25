@@ -30,7 +30,7 @@ module Parser
 
       def self.exchange_info
         response = Faraday.get("#{URL}/exchangeInfo")
-        return [] unless response.success?
+        return {} unless response.success?
 
         JSON.parse(response.body)['symbols'].each_with_object({}) do |pair, hash|
           hash[pair['symbol']] = { currency_from: pair['baseAsset'], currency_to: pair['quoteAsset'] }

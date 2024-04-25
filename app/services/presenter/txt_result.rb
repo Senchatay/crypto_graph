@@ -29,15 +29,21 @@ module Presenter
     private
 
     def header!(file)
-      string = "|#{"Time: #{Time.now}".center(131)}|\n"
-      string += "|#{'Currency from'.center(25)}|#{'Count'.center(25)}|"
-      string += '==>'.center(25)
+      time!(file)
+      string = "|#{'Currency from'.center(25)}|#{'Count'.center(25)}|"
+      string += '==>'.center(50)
       string += "|#{'Currency to'.center(25)}|#{'Count'.center(25)}|\n"
       file.write(string)
     end
 
+    def time!(file)
+      time = (Time.now + 10_800).strftime('%F %R')
+      minutes = ((Time.now - $start_time) / 60).ceil
+      file.write("|#{"Time: #{time} (#{minutes} minutes)".center(154)}|\n")
+    end
+
     def split_line!(file)
-      file.write('-' * 131)
+      file.write('-' * 156)
       file.write("\n")
     end
 
@@ -71,14 +77,14 @@ module Presenter
 
     def changeway_as_string(currency_from, count_from, currency_to, count_to)
       string = "|#{currency_from.ljust(25)}|#{count_from.ljust(25)}|"
-      string += "(#{count_from.to_f / count_to.to_f})".center(25)
+      string += "(#{count_from.to_f / count_to.to_f} \/ #{count_to.to_f / count_from.to_f}))".center(50)
       string += "|#{currency_to.ljust(25)}|#{count_to.ljust(25)}|\n"
       string
     end
 
     def currencys!(file)
       file.write('|')
-      file.write("ALL CURRENCYS COUNT: #{board.all_currency.count}".center(129))
+      file.write("ALL CURRENCYS COUNT: #{board.all_currency.count}".center(154))
       file.write("|\n")
       split_line!(file)
     end

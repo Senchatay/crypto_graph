@@ -22,5 +22,6 @@ require_all('app/services/loader/*.rb')
 require_all('app/services/*.rb')
 
 loop do
+  $start_time = Time.now
   Presenter::TxtResult.call(RateToGraph.call)
 end
