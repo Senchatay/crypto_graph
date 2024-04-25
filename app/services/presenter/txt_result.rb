@@ -3,7 +3,7 @@
 module Presenter
   # Present resultst in tmp/result.txt
   class TxtResult
-    TOP_LIMIT = 10
+    TOP_LIMIT = 20
 
     attr_accessor :board, :top
 
@@ -78,12 +78,9 @@ module Presenter
 
     def currencys!(file)
       file.write('|')
-      file.write('ALL CURRENCYS'.center(129))
+      file.write("ALL CURRENCYS COUNT: #{board.all_currency.count}".center(129))
       file.write("|\n")
       split_line!(file)
-      board.all_currency.each do |currency|
-        file.write("#{currency}\n")
-      end
     end
   end
 end

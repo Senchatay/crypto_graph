@@ -5,7 +5,7 @@ module Finder
   class Currency
     attr_reader :nodes_by_name
 
-    EXCEPTED_CURRENCY = %i[NGN OMG].freeze
+    EXCEPTED_CURRENCY = %i[NGN OMG ROOBEE].freeze
 
     def initialize(nodes)
       @nodes_by_name = Hash.new { |hash, key| hash[key] = [] }
