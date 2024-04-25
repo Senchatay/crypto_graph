@@ -3,50 +3,40 @@
 module Parser
   module Monitoring
     # Pick exnode.ru exchanges
-    class Bybit
-      URL = 'https://api.bybit.com/v5'
+    class BitFinex
+      URL = 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL'
 
       def self.load
-        symbols = exchange_info
-        list = book_ticker.map do |info|
-          amount_from, amount_to = info.values_at('ask1Price', 'bid1Price').map(&:to_f)
-          pair = symbols[info['symbol']]
+        list = exchange_info.map do |info|
+          pair = info[0][/(?<=t).*/]
+          if pair.include?(':')
+            currency_from, currency_to = pair.split(':')
+          else
+            currency_from = pair[...3]
+            currency_to = pair[-3...]
+          end
+          amount_bid = info[1]
+          amount_ask = info[3]
           next if [amount_from, amount_to].any?(&:zero?)
-          next if pair.nil?
 
           [
-            node(
-              pair[:currency_from],
-              pair[:currency_to],
-              amount_to:
-            ),
-            node(
-              pair[:currency_to],
-              pair[:currency_from],
-              amount_from:
-            )
+            node(currency_from, currency_to, amount_to: amount_bid),
+            node(currency_to, currency_from, amount_from: amount_ask)
           ]
         end.flatten.compact
         new(list).push_to_graph
       end
 
       def self.exchange_info
-        response = Faraday.get("#{URL}/market/instruments-info?category=spot")
-        return {} unless response.success?
-
-        JSON.parse(response.body)['result']['list'].each_with_object({}) do |pair, hash|
-          hash[pair['symbol']] = { currency_from: pair['baseCoin'], currency_to: pair['quoteCoin'] }
-        end
-      end
-
-      def self.book_ticker
         response = Faraday.get("#{URL}/market/tickers?category=spot")
-        JSON.parse(response.body)['result']['list']
+        return [] unless response.success?
+
+        JSON.parse(response.body)
       end
 
       def self.node(currency_from, currency_to, amount_from: 1, amount_to: 1)
         {
-          exchanger: 'bybit.com',
+          exchanger: 'bitfinex.com',
           currency_from:,
           currency_to:,
           amount_from:,

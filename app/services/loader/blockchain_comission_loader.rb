@@ -25,5 +25,9 @@ module Loader
     def data
       @data ||= []
     end
+
+    def clear!
+      @data = []
+    end
   end
 end

@@ -33,5 +33,9 @@ module Loader
     def data
       @data ||= Set.new
     end
+
+    def clear!
+      @data = Set.new
+    end
   end
 end

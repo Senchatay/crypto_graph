@@ -7,7 +7,10 @@ module Parser
       return Parser::Commission::ETH if name[/ERC/]
       return Parser::Commission::Tron if name[/TRC/] || name[/TRX/]
 
-      super(name.to_s.split(' ').join)
+      const = name.to_s.split(' ').join.to_sym
+      return Parser::Commission unless Parser::Commission.constants.include?(const)
+
+      super(const)
     end
 
     def self.const_missing(_name)
