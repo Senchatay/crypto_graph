@@ -5,33 +5,13 @@ module Finder
   module BestExchange
     include Algorithm::DfsWithColors
 
-    START_AMOUNTS = {
-      BTC: 0.03,
-      BCH: 3,
-      TRX: 10_000,
-      ETH: 0.5,
-      LTC: 18,
-      ETC: 53,
-      SOL: 10,
-      'USDT ERC20': 1500,
-      'USDT TRC20': 1500,
-      'RUB': 50_000
-    }.freeze
-
-    def self.start_amount(currency)
-      return @start_amount[currency] if @start_amount
-
-      @start_amount = Hash.new { 10 }
-      @start_amount.merge!(START_AMOUNTS)
-      @start_amount[currency]
-    end
-
     attr_accessor :latest_way, :latest_rating, :color, :changeways
 
     def top_exchange(count)
       find_changeways!
       changeways.map     { |changeway| changeway_data(changeway) }.uniq
-                .sort_by { |changeway| -changeway[:result]       }
+                .sort_by { |changeway| -(changeway[:result] / changeway[:way].length) }
+                # .sort_by { |changeway| -changeway[:result]       }
                 .first(count)
     end
 
@@ -51,22 +31,23 @@ module Finder
       amounts = [start_amount(edges.first)]
       costs.each_with_index do |cost, index|
         current_edge = edges[index]
-        amounts << take_commission(amounts.last, cost, current_edge.first.name)
+        amounts << take_commission(amounts.last, cost, current_edge.first)
       end
       amounts
     end
 
-    def take_commission(amount, rating, currency)
+    def take_commission(amount, rating, node)
       return 0 unless amount.positive?
 
-      commission = Loader::BlockchainCommissionLoader.find_by(name: currency).commission
+      commission = Loader::BlockchainCommissionLoader.find_by(name: node.name).commission
+      amount *= 0.9 if node.changer.name == 'simpleswap'
       return 0 unless amount > commission
 
       rating * (amount - commission)
     end
 
     def start_amount(edge)
-      Finder::BestExchange.start_amount(edge.first.name)
+      Loader::AmountLoader.start_amount(edge.first.name)
     end
   end
 end
