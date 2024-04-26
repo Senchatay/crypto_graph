@@ -25,5 +25,13 @@ module Loader
       @start_amount.merge!(START_AMOUNTS)
       @start_amount[currency]
     end
+
+    def to_wei(amount)
+      10**17 * amount
+    end
+
+    def from_wei(amount)
+      amount.to_f / 10**17
+    end
   end
 end
