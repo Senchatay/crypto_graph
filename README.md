@@ -31,12 +31,14 @@ make debug          # Run Container in debug mode
 - [x] Sort results by profit and show only top.
 - [x] Dockerize app.
 - [x] Parse realtime blockchain-system commission.
+- [x] Parse realtime exchange.
 
 ## TODO
+- Add DEX API
+- Add P2P/C2C from exists stocks
 - Optimaze best_exchange with storing calculated node
-- Optimaze best_exchange API for rates(600k many times select)
+- Optimaze best_change API for rates(600k many times select)
 - Write dotenv example to README
 - Grade up to sinatra, postgres and puma.
-- Parse realtime exchange.
 - Use dry-rb datatypes for prices.
 - Create auto-transfer using [BlockCypher](https://github.com/blockcypher/ruby-client)
