@@ -7,16 +7,16 @@ module Parser
       URL = 'https://api.simpleswap.io'
 
       def self.load
-        list = exchange_info.first(::Loader::MonitoringLoader::EXCHANGE_LIMIT).map do |info|
-          {
-            exchanger: 'simpleswap',
-            currency_from: info['currency_from'].upcase,  # check case
-            currency_to: info['currency_to'].upcase,      # check case
-            amount_from: 1,
-            amount_to: info['rate'].to_f
-          }
-        end
-        new(list).push_to_graph
+        # list = exchange_info.first(::Loader::PricesLoader::NODES_LIMIT).map do |info|
+        #   {
+        #     exchanger: 'simpleswap',
+        #     currency_from: info['currency_from'].upcase,  # check case
+        #     currency_to: info['currency_to'].upcase,      # check case
+        #     amount_from: 1,
+        #     amount_to: info['rate'].to_f
+        #   }
+        # end
+        # new(list).push_to_graph
       end
 
       def self.exchange_info

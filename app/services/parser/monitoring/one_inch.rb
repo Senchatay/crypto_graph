@@ -21,7 +21,7 @@ module Parser
         [1, 56, 137].map do |chain|
           price_hash = prices(chain)
           sleep(1)
-          tokens(chain).permutation(2).first(::Loader::MonitoringLoader::EXCHANGE_LIMIT).map do |pair|
+          tokens(chain).permutation(2).first(::Loader::PricesLoader::NODES_LIMIT).map do |pair|
             amount_from = Loader::AmountLoader.from_wei(
               price_hash[pair[0]['address']]
             )
@@ -31,8 +31,9 @@ module Parser
             next if [amount_from, amount_to].any?(&:zero?)
 
             [
-              node(pair[1]['symbol'], pair[0]['symbol'], amount_from:, amount_to:),
+              node(chain, pair[1]['symbol'], pair[0]['symbol'], amount_from:, amount_to:),
               node(
+                chain,
                 pair[0]['symbol'],
                 pair[1]['symbol'],
                 amount_from: amount_to,
@@ -67,9 +68,9 @@ module Parser
         )
       end
 
-      def self.node(currency_from, currency_to, amount_from:, amount_to:)
+      def self.node(chain, currency_from, currency_to, amount_from:, amount_to:)
         {
-          exchanger: 'app.1inch.io',
+          exchanger: "app.1inch.io::#{chain}",
           currency_from:,
           currency_to:,
           amount_from:,

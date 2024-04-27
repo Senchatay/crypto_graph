@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module Parser
-  module Monitoring
+  module Stock
     # Pick BTC commission from web
-    class PrimeXBT
+    class PrimeXBT < Base
       # Telegram bot integration with @MyPrimeXBTbot need to be here, but PrimeXBT not availible in Russia
       RATES = <<~SQL
       SQL
@@ -20,24 +20,6 @@ module Parser
         #     amount_to: rate[/(?<= )[\d.]*/].to_f }
         # end.compact
         # new(list).push_to_graph
-      end
-
-      attr_accessor :list
-
-      def initialize(list)
-        @list = list
-      end
-
-      def push_to_graph
-        list.each do |hash|
-          Loader::ChangerLoader.push!(
-            hash[:exchanger],
-            {
-              hash[:currency_from].to_sym => hash[:amount_from],
-              hash[:currency_to].to_sym => hash[:amount_to]
-            }
-          )
-        end
       end
     end
   end

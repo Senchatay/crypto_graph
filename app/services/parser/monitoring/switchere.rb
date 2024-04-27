@@ -11,7 +11,7 @@ module Parser
       }.freeze
 
       def self.load
-        list = exchange_info.first(::Loader::MonitoringLoader::EXCHANGE_LIMIT).map do |info|
+        list = exchange_info.first(::Loader::PricesLoader::NODES_LIMIT).map do |info|
           currency_from, currency_to = info['name'].split('-')
           currency_from = MAPPING[currency_from] if MAPPING.key?(currency_from)
           currency_to = MAPPING[currency_to] if MAPPING.key?(currency_to)

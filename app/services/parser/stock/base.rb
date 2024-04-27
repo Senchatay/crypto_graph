@@ -1,37 +1,30 @@
 # frozen_string_literal: true
 
 module Parser
-  module Monitoring
-    # Pick BTC commission from web
-    class KuCoin
-      URL = 'https://api.kucoin.com/api/v1/market/allTickers'
-
+  module Stock
+    # Interface for Stock classes
+    class Base
       def self.load
-        list = exchange_info.first(::Loader::MonitoringLoader::EXCHANGE_LIMIT).map do |info|
-          currency_from, currency_to = info['symbol'].split('-')
-          [
-            node(currency_from, currency_to, amount_to: info['buy'].to_f),
-            node(currency_to, currency_from, amount_from: info['sell'].to_f)
-          ]
-        end.flatten
+        list = (spot_nodes + p2p_nodes).first(::Loader::PricesLoader::NODES_LIMIT)
         new(list).push_to_graph
+      end
+
+      def self.spot_nodes
+        []
+      end
+
+      def self.p2p_nodes
+        []
       end
 
       def self.node(currency_from, currency_to, amount_from: 1, amount_to: 1)
         {
-          exchanger: 'kucoin.com',
+          exchanger: self::STOCK_NAME,
           currency_from:,
           currency_to:,
           amount_from:,
           amount_to:
         }
-      end
-
-      def self.exchange_info
-        response = Faraday.get(URL)
-        return [] unless response.success?
-
-        JSON.parse(response.body)['data']['ticker']
       end
 
       attr_accessor :list

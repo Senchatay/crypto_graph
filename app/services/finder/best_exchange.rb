@@ -40,7 +40,6 @@ module Finder
       return 0 unless amount.positive?
 
       commission = Loader::BlockchainCommissionLoader.find_by(name: node.name).commission
-      amount *= 0.9 if node.changer.name == 'simpleswap'
       return 0 unless amount > commission
 
       rating * (amount - commission)

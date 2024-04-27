@@ -18,6 +18,7 @@ require_all('app/services/monkey_patching/**/*.rb')
 require_all('app/services/parser/*.rb')
 require_all('app/services/parser/commission/*.rb')
 require_all('app/services/parser/monitoring/**/*.rb')
+require_all('app/services/parser/stock/**/*.rb')
 require_all('app/services/loader/*.rb')
 require_all('app/services/*.rb')
 
