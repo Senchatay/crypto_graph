@@ -17,28 +17,30 @@ module Parser
         end
       end
 
-      def self.exchange_info(chain = 1)
-        price_hash = prices(chain)
-        sleep(1)
-        tokens(chain).permutation(2).first(::Loader::MonitoringLoader::EXCHANGE_LIMIT).map do |pair|
-          amount_from = Loader::AmountLoader.from_wei(
-            price_hash[pair[0]['address']]
-          )
-          amount_to = Loader::AmountLoader.from_wei(
-            price_hash[pair[1]['address']]
-          )
-          next if [amount_from, amount_to].any?(&:zero?)
-
-          [
-            node(pair[1]['symbol'], pair[0]['symbol'], amount_from:, amount_to:),
-            node(
-              pair[0]['symbol'],
-              pair[1]['symbol'],
-              amount_from: amount_to,
-              amount_to: amount_from
+      def self.exchange_info
+        [1, 56, 137].map do |chain|
+          price_hash = prices(chain)
+          sleep(1)
+          tokens(chain).permutation(2).first(::Loader::MonitoringLoader::EXCHANGE_LIMIT).map do |pair|
+            amount_from = Loader::AmountLoader.from_wei(
+              price_hash[pair[0]['address']]
             )
-          ]
-        end.compact.flatten
+            amount_to = Loader::AmountLoader.from_wei(
+              price_hash[pair[1]['address']]
+            )
+            next if [amount_from, amount_to].any?(&:zero?)
+
+            [
+              node(pair[1]['symbol'], pair[0]['symbol'], amount_from:, amount_to:),
+              node(
+                pair[0]['symbol'],
+                pair[1]['symbol'],
+                amount_from: amount_to,
+                amount_to: amount_from
+              )
+            ]
+          end.compact
+        end.flatten
       end
 
       def self.prices(chain = 1)
