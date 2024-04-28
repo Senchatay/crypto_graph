@@ -18,7 +18,14 @@ require_all('app/services/monkey_patching/**/*.rb')
 require_all('app/services/parser/*.rb')
 require_all('app/services/parser/commission/*.rb')
 require_all('app/services/parser/monitoring/**/*.rb')
+require_all('app/services/parser/stock/**/*.rb')
 require_all('app/services/loader/*.rb')
 require_all('app/services/*.rb')
 
-Presenter::TxtResult.call(RateToGraph.call)
+loop do
+  $start_time = Time.now
+  Presenter::TxtResult.call(RateToGraph.call)
+  Loader::ChangerLoader.clear!
+  Loader::NodeLoader.clear!
+  Loader::BlockchainCommissionLoader.clear!
+end

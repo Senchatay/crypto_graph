@@ -4,27 +4,31 @@ module Parser
   module Monitoring
     # Pick exnode.ru exchanges
     module Exnode
-      TOP_CHANGERS_COUNT = 3
       URL = 'https://exnode.ru/-courses-/api/v2/rates'
       CURRENCYS = %w[ETH BTC USDTTRC USDTERC TRX SBERRUB SBPRUB TCSBRUB LTC BCH ETC SOL BNB TON].freeze
+      TOP_EXCHANGER_LIMIT = 3
 
       module_function
 
       def load
         connection = Faraday.new(url: URL)
-        CURRENCYS.permutation(2).to_a.map do |currency_pair|
-          response = connection.get('', { from: currency_pair[0], to: currency_pair[1] })
-          document = JSON.parse(response.body)
-          parse_from_page(document)
+        begin
+          CURRENCYS.permutation(2).to_a.map do |currency_pair|
+            response = connection.get('', { from: currency_pair[0], to: currency_pair[1] })
+            next unless response.success?
+
+            document = JSON.parse(response.body)
+            parse_from_page(document)
+          end
+        rescue Faraday::Error => e
+          puts e
+        ensure
+          connection.close
         end
-      rescue Faraday::Error => e
-        puts e.message
-      ensure
-        connection&.close
       end
 
       def parse_from_page(page)
-        items = page['items']&.first(TOP_CHANGERS_COUNT)
+        items = page['items']&.first(TOP_EXCHANGER_LIMIT)
         items&.each do |item|
           currency_from = prepare_currency(item['from_currency'])
           currency_to = prepare_currency(item['to_currency'])
