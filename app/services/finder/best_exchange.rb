@@ -5,8 +5,6 @@ module Finder
   module BestExchange
     include Algorithm::DfsWithColors
 
-    attr_accessor :latest_way, :latest_rating, :color, :changeways
-
     def top_exchange(count)
       find_changeways!
       changeways.map     { |changeway| changeway_data(changeway) }.uniq
