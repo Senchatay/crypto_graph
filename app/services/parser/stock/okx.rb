@@ -10,11 +10,14 @@ module Parser
       def self.spot_nodes
         spot_info.map do |info|
           currency_from, currency_to = info['instId'].split('-')
+          amount_from, amount_to = info.values_at('askPx', 'bidPx').map(&:to_f)
+          next if [amount_from, amount_to].any?(&:zero?)
+
           [
-            node(currency_from, currency_to, amount_to: info['bidPx'].to_f),
-            node(currency_to, currency_from, amount_from: info['askPx'].to_f)
+            node(currency_from, currency_to, amount_to:),
+            node(currency_to, currency_from, amount_from:)
           ]
-        end.flatten
+        end.compact.flatten
       end
 
       def self.spot_info

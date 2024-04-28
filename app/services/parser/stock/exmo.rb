@@ -14,13 +14,16 @@ module Parser
           currency_to = ['USDT ERC20', 'USDT TRC20'] if currency_to == 'USDT'
           currency_from.map do |from|
             currency_to.map do |to|
+              amount_from, amount_to = info.values_at('sell_price', 'buy_price').map(&:to_f)
+              next if [amount_from, amount_to].any?(&:zero?)
+
               [
-                node(from, to, amount_from: info['sell_price'].to_f),
-                node(to, from, amount_to: info['buy_price'].to_f)
+                node(from, to, amount_from:),
+                node(to, from, amount_to:)
               ]
             end
           end
-        end.flatten
+        end.compact.flatten
       end
 
       def self.spot_info

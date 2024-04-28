@@ -3,18 +3,19 @@
 module Loader
   # Mock Data
   module PricesLoader
-    NODES_LIMIT = 100
+    NODES_LIMIT = 500
 
     module_function
 
     def call
-      monitorin_threads = Parser::Monitoring.constants.map do |resource|
-        Thread.new { Parser::Monitoring.const_get(resource).load }
+      threads = threads(Parser::Monitoring) + threads(Parser::Stock)
+      threads.each(&:join)
+    end
+
+    def threads(directory)
+      (directory.constants - [:Base]).map do |resource|
+        Thread.new { directory.const_get(resource).load }
       end
-      stock_threads = (Parser::Stock.constants - [:Base]).map do |resource|
-        Thread.new { Parser::Stock.const_get(resource).load }
-      end
-      (monitorin_threads + stock_threads).each(&:join)
     end
   end
 end

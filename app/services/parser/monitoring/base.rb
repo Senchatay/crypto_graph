@@ -1,25 +1,21 @@
 # frozen_string_literal: true
 
 module Parser
-  module Stock
+  module Monitoring
     # Interface for Stock classes
     class Base
       def self.load
-        list = (spot_nodes + p2p_nodes).first(::Loader::PricesLoader::NODES_LIMIT)
+        list = exchange_nodes.first(::Loader::PricesLoader::NODES_LIMIT)
         new(list).push_to_graph
       end
 
-      def self.spot_nodes
-        []
-      end
-
-      def self.p2p_nodes
+      def self.exchange_nodes
         []
       end
 
       def self.node(currency_from, currency_to, amount_from: 1, amount_to: 1)
         {
-          exchanger: self::STOCK_NAME,
+          exchanger: self::MONITORING_NAME,
           currency_from:,
           currency_to:,
           amount_from:,

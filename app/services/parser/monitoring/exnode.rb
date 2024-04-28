@@ -11,20 +11,20 @@ module Parser
       module_function
 
       def load
-        # connection = Faraday.new(url: URL)
-        # begin
-        #   CURRENCYS.permutation(2).to_a.map do |currency_pair|
-        #     response = connection.get('', { from: currency_pair[0], to: currency_pair[1] })
-        #     next unless response.success?
+        connection = Faraday.new(url: URL)
+        begin
+          CURRENCYS.permutation(2).to_a.map do |currency_pair|
+            response = connection.get('', { from: currency_pair[0], to: currency_pair[1] })
+            next unless response.success?
 
-        #     document = JSON.parse(response.body)
-        #     parse_from_page(document)
-        #   end
-        # rescue Faraday::Error => e
-        #   puts e
-        # ensure
-        #   connection.close
-        # end
+            document = JSON.parse(response.body)
+            parse_from_page(document)
+          end
+        rescue Faraday::Error => e
+          puts e
+        ensure
+          connection.close
+        end
       end
 
       def parse_from_page(page)

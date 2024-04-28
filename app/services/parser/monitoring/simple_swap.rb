@@ -3,11 +3,12 @@
 module Parser
   module Monitoring
     # Pick exnode.ru exchanges
-    class SimpleSwap
+    class SimpleSwap < Base
+      MONITORING_NAME = 'simpleswap'
       URL = 'https://api.simpleswap.io'
 
       def self.load
-        # list = exchange_info.first(::Loader::PricesLoader::NODES_LIMIT).map do |info|
+        # list = exchange_info.map do |info|
         #   {
         #     exchanger: 'simpleswap',
         #     currency_from: info['currency_from'].upcase,  # check case
@@ -24,24 +25,6 @@ module Parser
         return [] unless response.success?
 
         JSON.parse(response.body)
-      end
-
-      attr_accessor :list
-
-      def initialize(list)
-        @list = list
-      end
-
-      def push_to_graph
-        list.each do |hash|
-          Loader::ChangerLoader.push!(
-            hash[:exchanger],
-            {
-              hash[:currency_from].to_sym => hash[:amount_from],
-              hash[:currency_to].to_sym => hash[:amount_to]
-            }
-          )
-        end
       end
     end
   end
