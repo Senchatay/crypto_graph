@@ -5,7 +5,7 @@ module Parser
     # Interface for Stock classes
     class Base
       def self.load
-        list = (spot_nodes + p2p_nodes).first(::Loader::PricesLoader::NODES_LIMIT)
+        list = spot_nodes.first(::Loader::PricesLoader::NODES_LIMIT) + p2p_nodes
         new(list).push_to_graph
       end
 

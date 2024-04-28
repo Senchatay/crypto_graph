@@ -43,7 +43,7 @@ module Parser
                 node(crypto, fiat, amount_to: buy_info['floatPrice'].to_f),
                 node(fiat, crypto, amount_from: sell_info['floatPrice'].to_f)
               ]
-            end
+            end.compact
           end.flatten
         ensure
           @connection.close
