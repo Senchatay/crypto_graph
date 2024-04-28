@@ -6,8 +6,9 @@ module Parser
     class KuCoin < Base
       STOCK_NAME = 'kucoin.com'
       API_URL = 'https://api.kucoin.com/api/v1/market/allTickers'
-      P2P_URL = 'https://www.kucoin.com/_api/otc/ad/list'
+      P2P_URL = 'https://www.kucoin.com/'
       P2P_CRYPTO = %w[USDT BTC KCS ETH USDC].freeze
+      P2P_FIAT = %w[RUB USD EUR].freeze
 
       def self.spot_nodes
         spot_info.map do |info|
@@ -30,21 +31,32 @@ module Parser
       end
 
       def self.p2p_nodes
-        P2P_CRYPTO.map do |crypto|
-          sell = node('RUB', crypto, amount_from: p2p_info(crypto, 'SELL')['floatPrice'].to_f)
-          buy = node(crypto, 'RUB', amount_to: p2p_info(crypto, 'BUY')['floatPrice'].to_f)
+        @connection = Faraday.new(P2P_URL)
+        begin
+          P2P_FIAT.map do |fiat|
+            P2P_CRYPTO.map do |crypto|
+              buy_info = p2p_info(crypto, fiat, 'BUY')
+              sell_info = p2p_info(crypto, fiat, 'SELL')
+              next if [buy_info, sell_info].any?(&:nil?)
 
-          [buy, sell]
-        end.flatten
+              [
+                node(crypto, fiat, amount_to: buy_info['floatPrice'].to_f),
+                node(fiat, crypto, amount_from: sell_info['floatPrice'].to_f)
+              ]
+            end
+          end.flatten
+        ensure
+          @connection.close
+        end
       end
 
-      def self.p2p_info(currency, side)
-        response = Faraday.get(
-          P2P_URL,
+      def self.p2p_info(currency, legal, side)
+        response = @connection.get(
+          '_api/otc/ad/list',
           {
             status: 'PUTUP',
             currency:,
-            legal: 'RUB',
+            legal:,
             page: 2,
             pageSize: 1,
             side:
