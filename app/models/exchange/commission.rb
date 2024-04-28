@@ -7,7 +7,7 @@ module Exchange
 
     def initialize(name)
       @name = name
-      @commission = Parser::Commission.call
+      @commission = 0
     end
   end
 end

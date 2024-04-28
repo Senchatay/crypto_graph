@@ -8,9 +8,9 @@ module Parser
 
       def self.load
         # API::BestChange.currencies.values
-        CURRENCYS.permutation(2).to_a.map do |from, to|
-          new(API::BestChange.rates(from, to)).push_to_graph
-        end
+        # CURRENCYS.permutation(2).to_a.map do |from, to|
+        #   new(API::BestChange.rates(from, to)).push_to_graph
+        # end
       end
 
       attr_accessor :list

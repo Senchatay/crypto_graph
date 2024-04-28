@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 module Parser
-  module Monitoring
+  module Stock
     # Pick exnode.ru exchanges
-    class HitBTC
+    class HitBTC < Base
+      STOCK_NAME = 'binance.com'
       URL = 'https://api.hitbtc.com/api/3'
 
-      def self.load
+      def self.spot_nodes
         symbols = exchange_info
-        list = book_ticker.first(::Loader::MonitoringLoader::EXCHANGE_LIMIT).map do |symbol, info|
+        book_ticker.map do |symbol, info|
           amount_from, amount_to = info.values_at('ask', 'bid').map(&:to_f)
           pair = symbols[symbol]
           next if [amount_from, amount_to].any?(&:zero?)
@@ -23,7 +24,6 @@ module Parser
             )
           ]
         end.flatten.compact
-        new(list).push_to_graph
       end
 
       def self.exchange_info
@@ -38,34 +38,6 @@ module Parser
       def self.book_ticker
         response = Faraday.get("#{URL}/public/ticker")
         JSON.parse(response.body)
-      end
-
-      def self.node(currency_from, currency_to, amount_from: 1, amount_to: 1)
-        {
-          exchanger: 'binance.com',
-          currency_from:,
-          currency_to:,
-          amount_from:,
-          amount_to:
-        }
-      end
-
-      attr_accessor :list
-
-      def initialize(list)
-        @list = list
-      end
-
-      def push_to_graph
-        list.each do |hash|
-          Loader::ChangerLoader.push!(
-            hash[:exchanger],
-            {
-              hash[:currency_from].to_sym => hash[:amount_from],
-              hash[:currency_to].to_sym => hash[:amount_to]
-            }
-          )
-        end
       end
     end
   end

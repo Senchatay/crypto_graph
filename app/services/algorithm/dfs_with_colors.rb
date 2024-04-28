@@ -5,12 +5,19 @@ module Algorithm
   module DfsWithColors
     MAX_CHANGE_LENGTH = 6
 
+    attr_accessor :latest_way, :latest_rating, :color, :changeways
+
     private
 
     def find_changeways!
       @changeways = []
+      @color_backup = {}
+      @color = {}
 
       currency_finder.names.each do |name|
+        @color_backup.merge(@color)
+        next if @color_backup[name] == :black
+
         @color = Hash.new { |hash, key| hash[key] = :white }
         @latest_way = []
         @latest_rating = []
