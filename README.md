@@ -21,8 +21,9 @@ make debug          # Run Container in debug mode
 
 # Documentation
 ## Add Exchanges
-- https://cryptoradar.com/
-- https://www.binance.com/ with [binance-connector-ruby gem](https://github.com/binance/binance-connector-ruby)
+- Bitpapa: https://bitpapa.com/api/v1/pro/search?amount=10000&crypto_amount=107.53&type=sell&page=1&sort=price&currency_code=RUB&previous_currency_code=RUB&crypto_currency_code=USDT&with_correct_limits=false&limit=20&pages=10&total=190
+- https://www.mexc.com/ru-RU
+- https://docs.thorswap.finance/swapkit-docs/swapkit-api/swapkit-api/requesting-a-quote
 
 ## Helpful info
 - https://medium.com/@rahul_m/tor-with-ruby-to-make-anonymous-request-b52f266f8f6b
@@ -34,12 +35,12 @@ make debug          # Run Container in debug mode
 - [x] Dockerize app.
 - [x] Parse realtime blockchain-system commission.
 - [x] Parse realtime exchange.
+- [x] Optimaze best_change API for rates(600k many times select)
 
 ## TODO
-- Add DEX API
+- Add DEX API? +1
 - Add P2P/C2C from exists stocks
 - Optimaze best_exchange with storing calculated node
-- Optimaze best_change API for rates(600k many times select)
 - Write dotenv example to README
 - Grade up to sinatra, postgres and puma.
 - Use dry-rb datatypes for prices.
