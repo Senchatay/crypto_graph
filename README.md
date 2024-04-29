@@ -21,7 +21,6 @@ make debug          # Run Container in debug mode
 
 # Documentation
 ## Add Exchanges
-- Bitpapa: https://bitpapa.com/api/v1/pro/search?amount=10000&crypto_amount=107.53&type=sell&page=1&sort=price&currency_code=RUB&previous_currency_code=RUB&crypto_currency_code=USDT&with_correct_limits=false&limit=20&pages=10&total=190
 - https://www.mexc.com/ru-RU
 - https://docs.thorswap.finance/swapkit-docs/swapkit-api/swapkit-api/requesting-a-quote
 

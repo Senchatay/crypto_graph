@@ -3,7 +3,7 @@
 module Loader
   # Mock Data
   module PricesLoader
-    NODES_LIMIT = 400
+    NODES_LIMIT = 500
 
     module_function
 
