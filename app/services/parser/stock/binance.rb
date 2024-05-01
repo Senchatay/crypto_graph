@@ -6,6 +6,10 @@ module Parser
     class Binance < Base
       STOCK_NAME = 'binance.com'
       URL = 'https://www.binance.com/api/v3'
+      EXCEPTED_CURRENCY = %i[
+        VPAD ATLAS PPT STRK XAI NGL TAMA STND RACA PNT CND LTO CORE COMBO RLY
+        SWRV BCUG
+      ].freeze
 
       def self.spot_nodes
         symbols = exchange_info

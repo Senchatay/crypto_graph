@@ -6,8 +6,7 @@ module Finder
     attr_reader :nodes_by_name
 
     EXCEPTED_CURRENCY = %i[
-      NGN OMG EUR ROOBEE VPAD ATLAS PPT STRK XAI NGL TAMA STND RACA PNT CND LTO CORE
-      COMBO RLY
+      NGN OMG ROOBEE
     ].freeze
 
     def initialize(nodes)

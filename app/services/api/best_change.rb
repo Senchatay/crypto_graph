@@ -58,13 +58,18 @@ module API
     end
 
     def ways(from_id, to_id)
-      rates_list.select do |edge|
-        edge[0].to_i == from_id && edge[1].to_i == to_id
+      rates_list[from_id].select do |edge|
+        edge[1].to_i == to_id
       end
     end
 
     def rates_list
-      @rates_list ||= csv_data[:rates]
+      @rates_list ||= begin
+        list = Hash.new { |hash, value| hash[value] = [] }
+        csv_data[:rates].each_with_object(list) do |edge, hash|
+          hash[edge[0].to_i] << edge
+        end
+      end
     end
 
     def exchangers
@@ -119,7 +124,7 @@ module API
       file = Tempfile.new(name)
       begin
         file.write(entry.get_input_stream.read)
-        content = File.open(file.path, encoding: 'windows-1251').read
+        content = File.open(file.path, encoding: 'windows-1251').read.encode('utf-8')
         @contents << { name:, content: }
       ensure
         file.close

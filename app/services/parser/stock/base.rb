@@ -27,6 +27,14 @@ module Parser
         }
       end
 
+      def self.excepted
+        return @excepted if @excepted
+
+        @excepted = ::Finder::Currency::EXCEPTED_CURRENCY
+        @excepted |= self::EXCEPTED_CURRENCY if const_defined?(:EXCEPTED_CURRENCY)
+        @excepted
+      end
+
       attr_accessor :list
 
       def initialize(list)
@@ -37,7 +45,7 @@ module Parser
         list.each do |hash|
           from = hash[:currency_from].to_sym
           to = hash[:currency_to].to_sym
-          next if [from, to].any? { |currency| ::Finder::Currency::EXCEPTED_CURRENCY.include?(currency) }
+          next if [from, to].any? { |currency| self.class.excepted.include?(currency) }
 
           Loader::ChangerLoader.push!(
             hash[:exchanger],

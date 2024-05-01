@@ -7,8 +7,9 @@ module Finder
 
     def top_exchange(count)
       find_changeways!
-      changeways.map     { |changeway| changeway_data(changeway) }.uniq
-                .sort_by { |changeway| -(changeway[:result] / changeway[:way].length) }
+      changeways.map      { |changeway| changeway_data(changeway) }.uniq
+                .select   { |changeway| changeway[:result] <= 100 }
+                .sort_by  { |changeway| -(changeway[:result] / changeway[:way].length) }
                 # .sort_by { |changeway| -changeway[:result]       }
                 .first(count)
     end

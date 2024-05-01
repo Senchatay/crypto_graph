@@ -8,6 +8,7 @@ require 'faraday'
 require 'dotenv/load'
 require 'nokogiri'
 require 'uri'
+require 'websocket-client-simple'
 require_all('app/services/algorithm/**/*.rb')
 require_all('app/services/api/*.rb')
 require_all('app/services/finder/*.rb')
