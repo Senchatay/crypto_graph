@@ -4,7 +4,7 @@ module Parser
   module Stock
     # Pick exnode.ru exchanges
     class HitBTC < Base
-      STOCK_NAME = 'binance.com'
+      STOCK_NAME = 'hitbtc.com'
       URL = 'https://api.hitbtc.com/api/3'
 
       def self.spot_nodes

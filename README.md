@@ -20,10 +20,6 @@ make debug          # Run Container in debug mode
 ```
 
 # Documentation
-## Add Exchanges
-- https://www.mexc.com/ru-RU
-- https://docs.thorswap.finance/swapkit-docs/swapkit-api/swapkit-api/requesting-a-quote
-
 ## Helpful info
 - https://medium.com/@rahul_m/tor-with-ruby-to-make-anonymous-request-b52f266f8f6b
 
@@ -35,10 +31,10 @@ make debug          # Run Container in debug mode
 - [x] Parse realtime blockchain-system commission.
 - [x] Parse realtime exchange.
 - [x] Optimaze best_change API for rates(600k many times select)
+- [x] Add DEX API? +1
+- [x] Add P2P/C2C from exists stocks
 
 ## TODO
-- Add DEX API? +1
-- Add P2P/C2C from exists stocks
 - Optimaze best_exchange with storing calculated node
 - Write dotenv example to README
 - Grade up to sinatra, postgres and puma.
