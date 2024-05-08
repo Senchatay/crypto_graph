@@ -19,6 +19,18 @@ make start          # Start Container and compute calculation
 make debug          # Run Container in debug mode
 ```
 
+## ENV example
+```sh
+# .env
+ETHERSCAN_API_KEY = '50d858e0985ecc7f60418aaf0cc5ab587f42c2570a884095a9e8ccacd0f6545c'
+TRONSCAN_API_KEY = '50d858e0985ecc7f60418aaf0cc5ab587f42c2570a884095a9e8ccacd0f6545c'
+BYBIT_API_KEY = '50d858e0985ecc7f60418aaf0cc5ab587f42c2570a884095a9e8ccacd0f6545c'
+BYBIT_API_SECRET = '50d858e0985ecc7f60418aaf0cc5ab587f42c2570a884095a9e8ccacd0f6545c'
+SIMPLE_SWAP_API_KEY = '50d858e0985ecc7f60418aaf0cc5ab587f42c2570a884095a9e8ccacd0f6545c'
+CHANGE_NOW_API_KEY = '50d858e0985ecc7f60418aaf0cc5ab587f42c2570a884095a9e8ccacd0f6545c'
+1INCH_API_KEY = 'Bearer 50d858e0985ecc7f60418aaf0cc5ab587f42c2570a884095a9e8ccacd0f6545c'
+```
+
 # Documentation
 ## Helpful info
 - https://medium.com/@rahul_m/tor-with-ruby-to-make-anonymous-request-b52f266f8f6b
@@ -33,10 +45,10 @@ make debug          # Run Container in debug mode
 - [x] Optimaze best_change API for rates(600k many times select)
 - [x] Add DEX API? +1
 - [x] Add P2P/C2C from exists stocks
+- [x] Write dotenv example to README
 
 ## TODO
 - Optimaze best_exchange with storing calculated node
-- Write dotenv example to README
 - Grade up to sinatra, postgres and puma.
 - Use dry-rb datatypes for prices.
 - Create auto-transfer using [BlockCypher](https://github.com/blockcypher/ruby-client)
